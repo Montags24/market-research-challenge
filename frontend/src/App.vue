@@ -3,12 +3,14 @@ import { RouterView } from 'vue-router'
 </script>
 
 <template>
-  <header>
+  <header class="relative">
     <!-- Include NavBar component for navigation -->
-    <NavBar />
+    <div class="fixed top-0 left-0 right-0">
+      <NavBar />
+    </div>
   </header>
 
-  <main>
+  <main class="pt-[48px]">
     <!-- RouterView for rendering routed components -->
     <RouterView />
     <!-- Main content goes here -->

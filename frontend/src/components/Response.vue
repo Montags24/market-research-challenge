@@ -1,6 +1,6 @@
 <template>
     <section class="flex flex-col justify-center px-4 pb-4 pt-1 max-container">
-        <div class="flex pb-2 overflow-x-auto">
+        <div class="flex pb-2 overflow-x-auto sm:justify-center">
             <div class="flex gap-x-2 pb-2">
                 <div v-for="(option, index) in options" :key="index" class="pt-1">
                     <button

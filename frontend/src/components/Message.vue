@@ -5,9 +5,9 @@
         <div class="flex gap-x-4"
             :class="{ 'justify-start flex-row-reverse': sender !== 'bot', 'px-[48px]': continuedMessage }">
             <span v-if="!continuedMessage" class="w-8 h-8 bg-black rounded-full"></span>
-            <span
-                class="bg-gray-300 py-1 px-3 rounded-lg max-w-48 sm:max-w-72 font-montserrat text-sm flex items-center"
-                :class="{ 'bg-blue-500 text-white': sender !== 'bot' }">{{ message }}</span>
+            <span class="py-1 px-3 rounded-lg max-w-48 sm:max-w-72 font-montserrat text-sm flex items-center"
+                :class="{ 'bg-blue-500 text-white': sender !== 'bot', 'bg-slate-200': sender == 'bot' }">{{ message
+                }}</span>
         </div>
     </section>
 </template>

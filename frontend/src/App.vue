@@ -1,25 +1,28 @@
 <script setup>
 import { RouterView } from 'vue-router'
+import { reactive } from 'vue';
+
+import User from './js/User';
+
+const user = reactive(new User())
 </script>
 
 <template>
-  <header class="relative">
-    <!-- Include NavBar component for navigation -->
-    <div class="fixed top-0 left-0 right-0">
-      <NavBar />
-    </div>
-  </header>
-
-  <main class="pt-[48px]">
-    <!-- RouterView for rendering routed components -->
-    <RouterView />
-    <!-- Main content goes here -->
-  </main>
-
-  <footer>
-    <!-- Footer content goes here -->
-  </footer>
-
+  <div>
+    <header class="relative">
+      <!-- Include NavBar component for navigation -->
+      <div class="fixed top-0 left-0 right-0">
+        <NavBar :user="user" />
+      </div>
+    </header>
+    <main class="pt-[48px] h-screen">
+      <RouterView :user="user" />
+    </main>
+    <footer>
+      <!-- Footer content goes here -->
+      <!-- <h1>Footer</h1> -->
+    </footer>
+  </div>
 </template>
 
 <script>

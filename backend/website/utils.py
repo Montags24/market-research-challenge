@@ -3,14 +3,14 @@ CHATBOT_MESSAGES = [
         "id": 0,
         "sender": "bot",
         "body": "Hi there 👋! How are you doing today?",
-        "timestamp": "14:46",
+        "timestamp": None,
         "responses": ["Not great", "Just okay", "Great", "Fantastic!"],
     },
     {
         "id": 1,
         "sender": "bot",
         "body": "What do you usually enjoy doing in your free time?",
-        "timestamp": "14:48",
+        "timestamp": None,
         "responses": [
             "Reading",
             "Playing sports",
@@ -24,7 +24,7 @@ CHATBOT_MESSAGES = [
         "id": 2,
         "sender": "bot",
         "body": "Do you have any favorite hobbies or activities that you're passionate about?",
-        "timestamp": "14:50",
+        "timestamp": None,
         "responses": [
             "Drawing",
             "Writing",
@@ -45,7 +45,7 @@ CHATBOT_MESSAGES = [
         "id": 4,
         "sender": "bot",
         "body": "What kind of books, movies, or music do you enjoy?",
-        "timestamp": "14:54",
+        "timestamp": None,
         "responses": [
             "Fantasy novels",
             "Action movies",
@@ -59,7 +59,7 @@ CHATBOT_MESSAGES = [
         "id": 5,
         "sender": "bot",
         "body": "Is there a particular cuisine or type of food you absolutely love?",
-        "timestamp": "14:56",
+        "timestamp": None,
         "responses": [
             "Mexican",
             "Italian",
@@ -73,7 +73,7 @@ CHATBOT_MESSAGES = [
         "id": 6,
         "sender": "bot",
         "body": "Do you have any pets? If so, tell me about them!",
-        "timestamp": "14:58",
+        "timestamp": None,
         "responses": [
             "Yes, I have a dog!",
             "Yes, I have a cat!",
@@ -86,7 +86,7 @@ CHATBOT_MESSAGES = [
         "id": 7,
         "sender": "bot",
         "body": "What's your favorite way to unwind after a long day?",
-        "timestamp": "15:00",
+        "timestamp": None,
         "responses": [
             "Taking a hot bath",
             "Going for a walk",
@@ -100,7 +100,7 @@ CHATBOT_MESSAGES = [
         "id": 8,
         "sender": "bot",
         "body": "Have you ever been involved in any interesting projects or activities?",
-        "timestamp": "15:02",
+        "timestamp": None,
         "responses": [
             "Yes, I've volunteered for charity work",
             "Yes, I've participated in a hackathon",
@@ -114,7 +114,7 @@ CHATBOT_MESSAGES = [
         "id": 9,
         "sender": "bot",
         "body": "What are you most passionate about in life?",
-        "timestamp": "15:04",
+        "timestamp": None,
         "responses": [
             "Advocating for environmental causes",
             "Promoting mental health awareness",

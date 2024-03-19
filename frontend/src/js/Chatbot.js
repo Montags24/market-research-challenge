@@ -4,18 +4,29 @@ class Chatbot {
     this.messages = []
   }
 
+  getTimestamp () {
+    const now = new Date()
+    const hours = now.getHours().toString().padStart(2, '0') // Ensure 2 digits
+    const minutes = now.getMinutes().toString().padStart(2, '0') // Ensure 2 digits
+    return `${hours}:${minutes}`
+  }
+
+  pushUserReplyToMessages (userReply) {
+    this.messages.push({
+      sender: 'user',
+      body: userReply,
+      responses: [],
+      timestamp: this.getTimestamp()
+    })
+  }
+
   apiGetReplyFromChatbot (userReply, messageId) {
     console.log('In apiGetReplyFromChatbot')
     console.log(userReply)
     console.log(messageId)
 
     if (userReply != '' && userReply != null) {
-      this.messages.push({
-        sender: 'user',
-        body: userReply,
-        responses: [],
-        timestamp: '14:58'
-      })
+      this.pushUserReplyToMessages(userReply)
     }
 
     return new Promise((resolve, reject) => {
@@ -41,6 +52,7 @@ class Chatbot {
         .then(apiObject => {
           try {
             if (apiObject.rc == 0) {
+              apiObject.chatbot_reply['timestamp'] = this.getTimestamp()
               this.messages.push(apiObject.chatbot_reply)
               resolve(apiObject.message)
             } else {

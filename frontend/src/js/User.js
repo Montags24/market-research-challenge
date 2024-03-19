@@ -1,5 +1,6 @@
 class User {
-  constructor () {
+  constructor (domainOrigin) {
+    this.domainOrigin = domainOrigin
     this.score = 0
   }
 

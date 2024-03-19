@@ -2,7 +2,7 @@
     <div>
         <div class="border-x-2 border-dark-turquoise max-container h-screen flex flex-col">
             <section class="flex flex-col gap-y-1 overflow-y-auto">
-                <div v-for="(message, index) in messages" :key="index">
+                <div v-for="(message, index) in chatbot.messages" :key="index">
                     <Message :sender="message.sender" :message="message.body" :timestamp="message.timestamp"
                         :continuedMessage="checkPreviousSender(index)"></Message>
                 </div>
@@ -10,7 +10,8 @@
             </section>
             <section class="relative">
                 <div class="fixed bottom-0 left-0 right-0 bg-white border-x-2 border-dark-turquoise max-container">
-                    <Response :options="options" @emitResponse="handleUserResponse"></Response>
+                    <Response :options="chatbot.messages[chatbot.messages.length - 1]"
+                        @emitResponse="handleUserResponse"></Response>
                 </div>
             </section>
         </div>
@@ -30,32 +31,12 @@ export default {
         user: {
             type: Object
         },
+        chatbot: {
+            type: Object
+        },
     },
     data() {
         return {
-            messages: [
-                {
-                    "sender": "bot",
-                    "body": "Hi there! 👋",
-                    "timestamp": "14:46"
-                },
-                {
-                    "sender": "user",
-                    "body": "Hey, how's it going?",
-                    "timestamp": "14:47"
-                },
-                {
-                    "sender": "bot",
-                    "body": "Great, thanks! What are you up to?",
-                    "timestamp": "14:47"
-                }
-            ],
-            options: [
-                { "text": "Very unlikely" },
-                { "text": "Unlikely" },
-                { "text": "Likely" },
-                { "text": "Very likely" }
-            ]
         }
     },
     methods: {
@@ -65,18 +46,17 @@ export default {
             }
         },
         handleUserResponse(message) {
-            this.messages.push({
-                "sender": "user",
-                "body": message,
-                "timestamp": "14:58"
-            });
+            this.chatbot.apiGetReplyFromChatbot(message, this.chatbot.messages[this.chatbot.messages.length - 1]["id"])
             this.user.updateScore(5);
             this.scrollToBottom();
         },
         scrollToBottom() {
             this.$refs.hiddenContent.scrollIntoView({ behavior: 'smooth' });
         }
-    }
+    },
+    async created() {
+        await this.chatbot.apiGetReplyFromChatbot();
+    },
 }
 </script>
 

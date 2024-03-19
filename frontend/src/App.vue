@@ -3,8 +3,19 @@ import { RouterView } from 'vue-router'
 import { reactive } from 'vue';
 
 import User from './js/User';
+import Chatbot from './js/Chatbot';
 
-const user = reactive(new User())
+// when we are developing using localhost on port 5173 (vue's default port),
+// to integrate with the flask backend, we need to modify the port to 5000 (flask default port)
+let domainOrigin = window.location.origin
+if (domainOrigin.slice(-5) == ":5173") {
+  domainOrigin = domainOrigin.replace(":5173", ":5000")
+}
+
+const user = reactive(new User(domainOrigin))
+const chatbot = reactive(new Chatbot(domainOrigin))
+
+
 </script>
 
 <template>
@@ -16,7 +27,7 @@ const user = reactive(new User())
       </div>
     </header>
     <main class="pt-[48px] h-screen">
-      <RouterView :user="user" />
+      <RouterView :user="user" :chatbot="chatbot" />
     </main>
     <footer>
       <!-- Footer content goes here -->

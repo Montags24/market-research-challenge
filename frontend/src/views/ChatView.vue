@@ -46,7 +46,7 @@ export default {
             }
         },
         async handleUserResponse(message) {
-            await this.chatbot.apiGetReplyFromChatbot(message, this.chatbot.messages[this.chatbot.messages.length - 1]["id"])
+            await this.chatbot.apiGetReplyFromChatbot(message, this.chatbot.messages[this.chatbot.messages.length - 1]["id"], this.chatbot.messages[this.chatbot.messages.length - 1]["body"])
             this.responses = this.chatbot.messages[this.chatbot.messages.length - 1]["responses"]
             this.user.updateScore(5);
             this.scrollToBottom();
@@ -56,7 +56,7 @@ export default {
         }
     },
     async created() {
-        await this.chatbot.apiGetReplyFromChatbot(null, null);
+        await this.chatbot.apiGetReplyFromChatbot(null, null, null);
         this.responses = this.chatbot.messages[this.chatbot.messages.length - 1]["responses"]
     },
 }

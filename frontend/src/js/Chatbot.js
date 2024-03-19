@@ -20,22 +20,18 @@ class Chatbot {
     })
   }
 
-  apiGetReplyFromChatbot (userReply, messageId) {
+  apiGetReplyFromChatbot (userReply, messageId, previousQuestion) {
     console.log('In apiGetReplyFromChatbot')
-    console.log(userReply)
-    console.log(messageId)
-
-    if (userReply != '' && userReply != null) {
-      this.pushUserReplyToMessages(userReply)
-    }
 
     return new Promise((resolve, reject) => {
       const payload = {}
       if (userReply != '' && userReply != null) {
         payload.user_reply = userReply
         payload.message_id = messageId
+        payload.previous_question = previousQuestion
+
+        this.pushUserReplyToMessages(userReply)
       }
-      console.log(payload)
 
       const requestOptions = {
         method: 'POST',
@@ -52,6 +48,10 @@ class Chatbot {
         .then(apiObject => {
           try {
             if (apiObject.rc == 0) {
+              if (apiObject.chatgpt_reply) {
+                apiObject.chatgpt_reply['timestamp'] = this.getTimestamp()
+                this.messages.push(apiObject.chatgpt_reply)
+              }
               apiObject.chatbot_reply['timestamp'] = this.getTimestamp()
               this.messages.push(apiObject.chatbot_reply)
               resolve(apiObject.message)

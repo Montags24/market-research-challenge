@@ -19,7 +19,7 @@ def generate_response(user_reply, previous_question):
         messages=[
             {
                 "role": "system",
-                "content": "respond without using questions",
+                "content": "Respond in a friendly manner and avoid asking questions.",
             },
             {
                 "role": "assistant",

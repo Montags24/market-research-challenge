@@ -2,12 +2,19 @@ CHATBOT_MESSAGES = [
     {
         "id": 0,
         "sender": "bot",
-        "body": "Hi there 👋! How are you doing today?",
+        "body": "Hi there 👋! What if I told you a 5 min conversation could lead to real change?",
         "timestamp": None,
-        "responses": ["Not great", "Just okay", "Great", "Fantastic!"],
+        "responses": ["Fantastic!"],
     },
     {
         "id": 1,
+        "sender": "bot",
+        "body": "test_video.mp4",
+        "timestamp": None,
+        "responses": [],
+    },
+    {
+        "id": 2,
         "sender": "bot",
         "body": "What do you usually enjoy doing in your free time?",
         "timestamp": None,
@@ -21,7 +28,7 @@ CHATBOT_MESSAGES = [
         ],
     },
     {
-        "id": 2,
+        "id": 3,
         "sender": "bot",
         "body": "Do you have any favorite hobbies or activities that you're passionate about?",
         "timestamp": None,
@@ -35,14 +42,14 @@ CHATBOT_MESSAGES = [
         ],
     },
     {
-        "id": 3,
+        "id": 4,
         "sender": "bot",
         "body": "If you could travel anywhere in the world right now, where would you go?",
         "timestamp": "14:52",
         "responses": ["Japan", "Italy", "Australia", "Canada", "New Zealand", "Brazil"],
     },
     {
-        "id": 4,
+        "id": 5,
         "sender": "bot",
         "body": "What kind of books, movies, or music do you enjoy?",
         "timestamp": None,
@@ -56,7 +63,7 @@ CHATBOT_MESSAGES = [
         ],
     },
     {
-        "id": 5,
+        "id": 6,
         "sender": "bot",
         "body": "Is there a particular cuisine or type of food you absolutely love?",
         "timestamp": None,
@@ -70,7 +77,7 @@ CHATBOT_MESSAGES = [
         ],
     },
     {
-        "id": 6,
+        "id": 7,
         "sender": "bot",
         "body": "Do you have any pets? If so, tell me about them!",
         "timestamp": None,
@@ -83,7 +90,7 @@ CHATBOT_MESSAGES = [
         ],
     },
     {
-        "id": 7,
+        "id": 8,
         "sender": "bot",
         "body": "What's your favorite way to unwind after a long day?",
         "timestamp": None,
@@ -97,7 +104,7 @@ CHATBOT_MESSAGES = [
         ],
     },
     {
-        "id": 8,
+        "id": 9,
         "sender": "bot",
         "body": "Have you ever been involved in any interesting projects or activities?",
         "timestamp": None,
@@ -111,7 +118,7 @@ CHATBOT_MESSAGES = [
         ],
     },
     {
-        "id": 9,
+        "id": 10,
         "sender": "bot",
         "body": "What are you most passionate about in life?",
         "timestamp": None,

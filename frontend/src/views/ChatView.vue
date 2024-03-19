@@ -10,8 +10,7 @@
             </section>
             <section class="relative">
                 <div class="fixed bottom-0 left-0 right-0 bg-white border-x-2 border-dark-turquoise max-container">
-                    <Response :options="chatbot.messages[chatbot.messages.length - 1]"
-                        @emitResponse="handleUserResponse"></Response>
+                    <Response :options="responses" @emitResponse="handleUserResponse"></Response>
                 </div>
             </section>
         </div>
@@ -37,16 +36,18 @@ export default {
     },
     data() {
         return {
+            responses: []
         }
     },
     methods: {
         checkPreviousSender(index) {
             if (index !== 0) {
-                return this.messages[index - 1].sender === this.messages[index].sender;
+                return this.chatbot.messages[index - 1].sender === this.chatbot.messages[index].sender;
             }
         },
-        handleUserResponse(message) {
-            this.chatbot.apiGetReplyFromChatbot(message, this.chatbot.messages[this.chatbot.messages.length - 1]["id"])
+        async handleUserResponse(message) {
+            await this.chatbot.apiGetReplyFromChatbot(message, this.chatbot.messages[this.chatbot.messages.length - 1]["id"])
+            this.responses = this.chatbot.messages[this.chatbot.messages.length - 1]["responses"]
             this.user.updateScore(5);
             this.scrollToBottom();
         },
@@ -55,7 +56,8 @@ export default {
         }
     },
     async created() {
-        await this.chatbot.apiGetReplyFromChatbot();
+        await this.chatbot.apiGetReplyFromChatbot(null, null);
+        this.responses = this.chatbot.messages[this.chatbot.messages.length - 1]["responses"]
     },
 }
 </script>

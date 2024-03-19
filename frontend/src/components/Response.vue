@@ -1,12 +1,12 @@
 <template>
     <section class="flex flex-col justify-center px-4 pb-4 pt-1 max-container">
-        <div class="flex pb-2 overflow-x-auto sm:justify-center">
+        <div class="flex pb-2 overflow-x-auto">
             <div class="flex gap-x-2 pb-2">
                 <div v-for="(option, index) in options" :key="index" class="pt-1">
                     <button
                         class="border border-slate-400 rounded-full px-3 text-sm font-montserrat whitespace-nowrap hover:bg-blue-500"
-                        @click="clickButton(option.text)">{{
-                    option.text
+                        @click="clickButton(option)">{{
+                    option
                 }}</button>
                 </div>
             </div>
@@ -38,8 +38,8 @@ export default {
             this.message = text
         },
         sendMessage() {
-            console.log(this.message)
             this.$emit('emitResponse', this.message)
+            this.message = ""
         }
     },
 }

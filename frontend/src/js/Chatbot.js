@@ -6,12 +6,17 @@ class Chatbot {
 
   apiGetReplyFromChatbot (userReply, messageId) {
     console.log('In apiGetReplyFromChatbot')
+    console.log(userReply)
+    console.log(messageId)
 
-    this.messages.push({
-      sender: 'user',
-      body: userReply,
-      timestamp: '14:58'
-    })
+    if (userReply != '' && userReply != null) {
+      this.messages.push({
+        sender: 'user',
+        body: userReply,
+        responses: [],
+        timestamp: '14:58'
+      })
+    }
 
     return new Promise((resolve, reject) => {
       const payload = {}
@@ -19,6 +24,7 @@ class Chatbot {
         payload.user_reply = userReply
         payload.message_id = messageId
       }
+      console.log(payload)
 
       const requestOptions = {
         method: 'POST',

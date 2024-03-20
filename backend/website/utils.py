@@ -1,99 +1,18 @@
-CHATBOT_MESSAGES = [
+MESSAGES = [
     {
-        "id": 0,
-        "sender": "bot",
-        "body": "Hi there 👋! What if I told you a 5 min conversation could lead to real change?",
-        "timestamp": None,
-        "responses": ["Fantastic!"],
-    },
-    {
-        "id": 1,
-        "sender": "bot",
-        "body": "test_video.mp4",
-        "timestamp": None,
+        "body": "Hi there 👋! Welcome to NextGenVoice! A platform to share your thoughts, drive change and win prizes along the way!",
         "responses": [],
     },
     {
-        "id": 2,
-        "sender": "bot",
-        "body": "What do you usually enjoy doing in your free time?",
-        "timestamp": None,
-        "responses": [
-            "Reading",
-            "Playing sports",
-            "Watching movies",
-            "Cooking",
-            "Gardening",
-            "Listening to music",
-        ],
+        "body": "Before we get started, here's a short video on what to expect!",
+        "responses": [],
     },
     {
-        "id": 3,
-        "sender": "bot",
-        "body": "Do you have any favorite hobbies or activities that you're passionate about?",
-        "timestamp": None,
-        "responses": [
-            "Drawing",
-            "Writing",
-            "Photography",
-            "Hiking",
-            "Playing an instrument",
-            "Crafting",
-        ],
+        "body": "test_video.mp4",
+        "responses": ["I've finished the video, let's continue!"],
     },
     {
-        "id": 4,
-        "sender": "bot",
-        "body": "If you could travel anywhere in the world right now, where would you go?",
-        "timestamp": "14:52",
-        "responses": ["Japan", "Italy", "Australia", "Canada", "New Zealand", "Brazil"],
-    },
-    {
-        "id": 5,
-        "sender": "bot",
-        "body": "What kind of books, movies, or music do you enjoy?",
-        "timestamp": None,
-        "responses": [
-            "Fantasy novels",
-            "Action movies",
-            "Indie music",
-            "Romantic comedies",
-            "Documentaries",
-            "Classic rock",
-        ],
-    },
-    {
-        "id": 6,
-        "sender": "bot",
-        "body": "Is there a particular cuisine or type of food you absolutely love?",
-        "timestamp": None,
-        "responses": [
-            "Mexican",
-            "Italian",
-            "Japanese",
-            "Indian",
-            "Thai",
-            "Mediterranean",
-        ],
-    },
-    {
-        "id": 7,
-        "sender": "bot",
-        "body": "Do you have any pets? If so, tell me about them!",
-        "timestamp": None,
-        "responses": [
-            "Yes, I have a dog!",
-            "Yes, I have a cat!",
-            "Yes, I have a bird!",
-            "Yes, I have a fish!",
-            "No, I don't have any pets.",
-        ],
-    },
-    {
-        "id": 8,
-        "sender": "bot",
         "body": "What's your favorite way to unwind after a long day?",
-        "timestamp": None,
         "responses": [
             "Taking a hot bath",
             "Going for a walk",
@@ -104,31 +23,18 @@ CHATBOT_MESSAGES = [
         ],
     },
     {
-        "id": 9,
-        "sender": "bot",
-        "body": "Have you ever been involved in any interesting projects or activities?",
-        "timestamp": None,
-        "responses": [
-            "Yes, I've volunteered for charity work",
-            "Yes, I've participated in a hackathon",
-            "Yes, I've organized community events",
-            "Yes, I've been part of a theater production",
-            "Yes, I've started my own business",
-            "No, not really.",
-        ],
+        "body": "It was great getting to know you! Based on your responses, we'd love to get your thoughts on the following:",
+        "responses": [],
     },
+]
+
+CHATBOT_MESSAGES = [
     {
-        "id": 10,
+        "id": i,
         "sender": "bot",
-        "body": "What are you most passionate about in life?",
+        "body": MESSAGES[i]["body"],
         "timestamp": None,
-        "responses": [
-            "Advocating for environmental causes",
-            "Promoting mental health awareness",
-            "Supporting animal rights",
-            "Fostering creativity in others",
-            "Exploring new cultures",
-            "Pursuing personal growth",
-        ],
-    },
+        "responses": MESSAGES[i]["responses"],
+    }
+    for i in range(len(MESSAGES))
 ]

@@ -20,18 +20,11 @@ class Chatbot {
     })
   }
 
-  apiGetReplyFromChatbot (userReply, messageId, previousQuestion) {
-    console.log('In apiGetReplyFromChatbot')
-
+  apiGetNextResponseFromChatbot (messageId) {
+    console.log('In apiGetNextResponseFromChatbot')
     return new Promise((resolve, reject) => {
       const payload = {}
-      if (userReply != '' && userReply != null) {
-        payload.user_reply = userReply
-        payload.message_id = messageId
-        payload.previous_question = previousQuestion
-
-        this.pushUserReplyToMessages(userReply)
-      }
+      payload.messageId = messageId
 
       const requestOptions = {
         method: 'POST',
@@ -48,15 +41,57 @@ class Chatbot {
         .then(apiObject => {
           try {
             if (apiObject.rc == 0) {
-              if (apiObject.chatgpt_reply) {
-                apiObject.chatgpt_reply['timestamp'] = this.getTimestamp()
-                this.messages.push(apiObject.chatgpt_reply)
-              }
               apiObject.chatbot_reply['timestamp'] = this.getTimestamp()
               this.messages.push(apiObject.chatbot_reply)
               resolve(apiObject.message)
             } else {
               console.log('Failed to get chatbot reply')
+            }
+          } catch (error) {
+            console.log(error)
+            reject(error)
+          }
+        })
+        .catch(error => {
+          console.log(error)
+          reject(error)
+        })
+    })
+  }
+
+  apiGetChatGptResponse (userReply, previousQuestion) {
+    console.log('In apiGetReplyFromChatbot')
+
+    return new Promise((resolve, reject) => {
+      const payload = {}
+      if (userReply != null) {
+        payload.user_reply = userReply
+        payload.previous_question = previousQuestion
+
+        this.pushUserReplyToMessages(userReply)
+      }
+
+      const requestOptions = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      }
+
+      const url = this.domainOrigin + '/api/chatgpt/response'
+
+      fetch(url, requestOptions)
+        .then(response => response.json())
+        .then(apiObject => {
+          try {
+            if (apiObject.rc == 0) {
+              apiObject.chatgpt_reply['timestamp'] = this.getTimestamp()
+              this.messages.push(apiObject.chatgpt_reply)
+
+              resolve(apiObject.message)
+            } else {
+              console.log('Failed to get chatgpt reply')
             }
           } catch (error) {
             console.log(error)

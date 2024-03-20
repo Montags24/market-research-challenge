@@ -4,7 +4,9 @@
             :class="{ 'text-right': sender !== 'bot' }">{{ timestamp }}</p>
         <div class="flex gap-x-4"
             :class="{ 'justify-start flex-row-reverse': sender !== 'bot', 'px-[48px]': continuedMessage }">
-            <span v-if="!continuedMessage" class="w-8 h-8 bg-black rounded-full"></span>
+            <span v-if="!continuedMessage" class="w-8 h-8 rounded-full">
+                <img :src="chatbotAvatar" alt="chatbot-avatar">
+            </span>
             <template v-if="isVideoMessage">
                 <video class="max-w-48 sm:max-w-72 rounded-lg" controls>
                     <source :src="video" type="video/mp4">
@@ -22,6 +24,7 @@
 
 <script>
 import testVideo from '@/assets/test_video.mp4';
+import { chatbotAvatar } from '@/assets/images';
 export default {
     props: {
         sender: {
@@ -40,7 +43,8 @@ export default {
     },
     data() {
         return {
-            video: testVideo
+            video: testVideo,
+            chatbotAvatar: chatbotAvatar
         }
     },
     computed: {

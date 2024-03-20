@@ -46,10 +46,18 @@ export default {
                 return this.chatbot.messages[index - 1].sender === this.chatbot.messages[index].sender;
             }
         },
+        async getNextMessageFromChatbot() {
+
+        },
         async handleUserResponse(message) {
             await this.chatbot.apiGetReplyFromChatbot(message, this.chatbot.messages[this.chatbot.messages.length - 1]["id"], this.chatbot.messages[this.chatbot.messages.length - 1]["body"])
             this.responses = this.chatbot.messages[this.chatbot.messages.length - 1]["responses"]
-            this.user.updateScore(5);
+            console.log(this.responses.length)
+            if (this.responses.length == 0) {
+                this.handleUserResponse("")
+            } else {
+                this.user.updateScore(5);
+            }
             this.scrollToBottom();
         },
         scrollToBottom() {
@@ -57,8 +65,11 @@ export default {
         }
     },
     async created() {
-        await this.chatbot.apiGetReplyFromChatbot(null, null, null);
+        await this.chatbot.apiGetNextResponseFromChatbot();
         this.responses = this.chatbot.messages[this.chatbot.messages.length - 1]["responses"]
+        if (this.responses.length == 0) {
+            this.handleUserResponse("")
+        }
     },
 }
 </script>

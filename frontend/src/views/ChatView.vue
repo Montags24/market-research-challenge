@@ -46,18 +46,23 @@ export default {
                 return this.chatbot.messages[index - 1].sender === this.chatbot.messages[index].sender;
             }
         },
-        async getNextMessageFromChatbot() {
-
+        sleep(time) {
+            return new Promise((resolve) => setTimeout(resolve, time));
         },
-        async handleUserResponse(message) {
-            await this.chatbot.apiGetReplyFromChatbot(message, this.chatbot.messages[this.chatbot.messages.length - 1]["id"], this.chatbot.messages[this.chatbot.messages.length - 1]["body"])
+        async getNextMessageFromChatbot(messageId) {
+            await this.sleep(1500)
+            await this.chatbot.apiGetNextResponseFromChatbot(messageId)
             this.responses = this.chatbot.messages[this.chatbot.messages.length - 1]["responses"]
-            console.log(this.responses.length)
             if (this.responses.length == 0) {
-                this.handleUserResponse("")
-            } else {
-                this.user.updateScore(5);
+                this.getNextMessageFromChatbot(this.chatbot.messages[this.chatbot.messages.length - 1]["id"])
             }
+            this.scrollToBottom();
+        },
+        async handleUserResponse(userReply) {
+            const latestMessageId = this.chatbot.messages[this.chatbot.messages.length - 1]["id"]
+            await this.chatbot.apiGetChatGptResponse(userReply, this.chatbot.messages[this.chatbot.messages.length - 1]["body"])
+            this.user.updateScore(5);
+            this.getNextMessageFromChatbot(latestMessageId)
             this.scrollToBottom();
         },
         scrollToBottom() {
@@ -65,10 +70,11 @@ export default {
         }
     },
     async created() {
-        await this.chatbot.apiGetNextResponseFromChatbot();
+        await this.chatbot.apiGetNextResponseFromChatbot(-1);
         this.responses = this.chatbot.messages[this.chatbot.messages.length - 1]["responses"]
         if (this.responses.length == 0) {
-            this.handleUserResponse("")
+            const latestMessageId = this.chatbot.messages[this.chatbot.messages.length - 1]["id"]
+            await this.getNextMessageFromChatbot(latestMessageId)
         }
     },
 }

@@ -1,5 +1,5 @@
 from flask import current_app as app
-from flask import render_template, request, jsonify
+from flask import render_template, request
 from flask_cors import CORS
 from website import db
 from website.chatgpt import generate_response
@@ -26,18 +26,13 @@ def get_next_message_from_chatbot() -> dict:
         api_package = request.get_json()
 
         try:
-            message_id = api_package["message_id"]
-
-            if message_id is None:
-                chatbot_reply = CHATBOT_MESSAGES[0]
-            else:
-                chatbot_reply = CHATBOT_MESSAGES[message_id + 1]
+            message_id = api_package["messageId"]
 
             if message_id < len(CHATBOT_MESSAGES):
                 return dict(
                     rc=0,
                     message="Success",
-                    chatbot_reply=chatbot_reply,
+                    chatbot_reply=CHATBOT_MESSAGES[message_id + 1],
                 )
 
         except KeyError:

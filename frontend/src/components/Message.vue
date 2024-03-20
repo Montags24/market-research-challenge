@@ -5,7 +5,8 @@
         <div class="flex gap-x-4"
             :class="{ 'justify-start flex-row-reverse': sender !== 'bot', 'px-[48px]': continuedMessage }">
             <span v-if="!continuedMessage" class="w-8 h-8 rounded-full">
-                <img :src="chatbotAvatar" alt="chatbot-avatar">
+                <img v-if="sender === 'bot'" :src="chatbotAvatar" alt="chatbot-avatar">
+                <v-icon v-else name="ri-chat-voice-fill" fill="blue" scale="1.5" />
             </span>
             <template v-if="isVideoMessage">
                 <video class="max-w-48 sm:max-w-72 rounded-lg" controls>

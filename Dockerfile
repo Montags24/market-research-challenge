@@ -14,8 +14,6 @@ COPY ./backend /app/backend
 # Navigate to the backend directory
 WORKDIR /app/backend
 
-# Install system packages required for building psycopg2
-RUN apk update && apk add --no-cache postgresql-dev gcc musl-dev libffi-dev openssl-dev
 
 # Install any needed packages specified in requirements.txt
 RUN pip install -r requirements.txt

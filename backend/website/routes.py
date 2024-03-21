@@ -1,7 +1,8 @@
 from flask import current_app as app
 from flask import render_template, request
 from flask_cors import CORS
-from website import db
+
+# from website import db
 from website.chatgpt import generate_chatgpt_response
 from website.utils import CHATBOT_MESSAGES
 

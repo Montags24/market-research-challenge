@@ -1,9 +1,10 @@
-import os
-import time
-from datetime import datetime, timedelta
-from flask import current_app as app
+# from datetime import datetime, timedelta
+# from flask import current_app as app
 from website import db
-from sqlalchemy.sql import func, expression, and_, or_
+
+from sqlalchemy.sql import func
+
+# , expression, and_, or_
 
 
 class User(db.Model):

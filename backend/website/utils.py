@@ -1,6 +1,7 @@
 MESSAGES = [
     {
-        "body": "Hi there 👋! Welcome to NextGenVoice! A platform to share your thoughts, drive change and win prizes along the way!",
+        "body": """Hi there 👋! Welcome to NextGenVoice!
+        A platform to share your thoughts, drive change and win prizes along the way!""",
         "responses": [],
     },
     {

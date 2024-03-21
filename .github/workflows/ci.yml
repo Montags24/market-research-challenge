@@ -16,6 +16,7 @@ env:
   DB_ADDRESS: ${{ secrets.DB_ADDRESS }}
   DB_PORT: ${{ secrets.DB_PORT }}
   DB_NAME: ${{ secrets.DB_NAME }}
+  OPENAI_API_KEY : ${{ secrets.OPENAI_API_KEY }}
   INSTANCE_TYPE : ${{ secrets.INSTANCE_TYPE }}
   this_url : ${{ secrets.this_url }}
 

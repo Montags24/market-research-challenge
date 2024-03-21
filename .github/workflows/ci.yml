@@ -9,6 +9,16 @@ on:
 permissions:
   contents: read
 
+env:
+  DB_TYPE: ${{ secrets.DB_TYPE }}
+  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+  DB_USERNAME: ${{ secrets.DB_USERNAME }}
+  DB_ADDRESS: ${{ secrets.DB_ADDRESS }}
+  DB_PORT: ${{ secrets.DB_PORT }}
+  DB_NAME: ${{ secrets.DB_NAME }}
+  INSTANCE_TYPE : ${{ secrets.INSTANCE_TYPE }}
+  this_url : ${{ secrets.this_url }}
+
 jobs:
   build:
 

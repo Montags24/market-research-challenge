@@ -14,7 +14,6 @@ COPY ./backend /app/backend
 # Navigate to the backend directory
 WORKDIR /app/backend
 
-
 # Install any needed packages specified in requirements.txt
 RUN pip install -r requirements.txt
 

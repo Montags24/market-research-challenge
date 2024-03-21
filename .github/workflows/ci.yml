@@ -20,6 +20,12 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: "3.11"
+    - name: Set up environment
+      run: |
+        echo 'Loading .env file'
+        cp .env.example .env  # Copy the example .env file (optional)
+        cat .env  # Display contents of .env for debugging (optional)
+        source .env  # Load the .env file
     - name: Navigate to backend directory
       run: cd backend
     - name: List contents of backend directory

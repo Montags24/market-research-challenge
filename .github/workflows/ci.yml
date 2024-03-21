@@ -23,7 +23,6 @@ jobs:
     - name: Set up environment
       run: |
         echo 'Loading .env file'
-        cp .env.example .env  # Copy the example .env file (optional)
         cat .env  # Display contents of .env for debugging (optional)
         source .env  # Load the .env file
     - name: Navigate to backend directory

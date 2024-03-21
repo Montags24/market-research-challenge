@@ -12,6 +12,7 @@ load_dotenv(os.path.join(this_directory, ".../.env"))
 app = create_app()
 
 
+# testing
 @pytest.fixture
 def client():
     app.config["TESTING"] = True

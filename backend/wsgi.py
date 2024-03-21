@@ -1,5 +1,5 @@
 # Application entry point.
-from website import create_app, db
+from website import create_app
 
 app = create_app()
 

@@ -36,4 +36,7 @@ def create_app():
 
         from website import routes, models
 
+        # To satisfy pylint
+        routes, models = routes, models
+
         return app

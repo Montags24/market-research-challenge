@@ -1,6 +1,5 @@
 import os
 import pytest
-import random
 from dotenv import load_dotenv
 
 from website import create_app

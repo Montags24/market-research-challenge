@@ -23,8 +23,8 @@ jobs:
     - name: Set up environment
       run: |
         echo 'Loading .env file'
-        cat .env  # Display contents of .env for debugging (optional)
-        source .env  # Load the .env file
+        cat backend/.env  # Display contents of .env for debugging (optional)
+        source backend/.env  # Load the .env file
     - name: Navigate to backend directory
       run: cd backend
     - name: List contents of backend directory

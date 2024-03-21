@@ -21,6 +21,7 @@ def client():
             yield client
 
 
+#
 def test_chatbot_successful_response(client):
     api_package = {"messageId": 0}
 

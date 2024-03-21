@@ -11,7 +11,7 @@ client = OpenAI(
 )
 
 
-def generate_response(user_reply, previous_question):
+def generate_chatgpt_response(user_reply: str, previous_question: str) -> str:
     prompt = f"{previous_question} User: {user_reply}\nAI:"
 
     response = client.chat.completions.create(
@@ -35,5 +35,5 @@ def generate_response(user_reply, previous_question):
 if __name__ == "__main__":
     previous_question = "What do you usually enjoy doing in your free time?"
     previous_answer = input("User: ")
-    response = generate_response(previous_answer, previous_question)
+    response = generate_chatgpt_response(previous_answer, previous_question)
     print("AI:", response)

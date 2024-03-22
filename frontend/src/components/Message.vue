@@ -52,6 +52,9 @@ export default {
         // Check if the message is a video URL
         isVideoMessage() {
             return this.message && this.message.endsWith('.mp4');
+        },
+        isIcon() {
+            return this.message && this.message.endsWith('.icon');
         }
     }
 }

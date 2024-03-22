@@ -11,7 +11,9 @@ client = OpenAI(
 )
 
 
-def generate_chatgpt_response(user_reply: str, previous_question: str) -> str:
+def generate_chatgpt_response(
+    user_reply: str, previous_question: str, name: str = None
+) -> str:
     prompt = f"{previous_question} User: {user_reply}\nAI:"
 
     response = client.chat.completions.create(
@@ -19,7 +21,7 @@ def generate_chatgpt_response(user_reply: str, previous_question: str) -> str:
         messages=[
             {
                 "role": "system",
-                "content": "Respond in a friendly manner and avoid asking questions.",
+                "content": f"Respond to {name} in a friendly manner and avoid asking questions.",
             },
             {
                 "role": "assistant",

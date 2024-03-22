@@ -54,14 +54,24 @@ export default {
             await this.chatbot.apiGetNextResponseFromChatbot(messageId)
             this.responses = this.chatbot.messages[this.chatbot.messages.length - 1]["responses"]
             // If no available responses for the user, get next message
-            if (this.responses.length == 0) {
+            if (!this.chatbot.messages[this.chatbot.messages.length - 1]["response_required"]) {
                 this.getNextMessageFromChatbot(this.chatbot.messages[this.chatbot.messages.length - 1]["id"])
+                this.scrollToBottom();
             }
-            this.scrollToBottom();
+            // else wait for user to respond
         },
         async handleUserResponse(userReply) {
             const latestMessageId = this.chatbot.messages[this.chatbot.messages.length - 1]["id"]
-            await this.chatbot.apiGetChatGptResponse(userReply, this.chatbot.messages[this.chatbot.messages.length - 1]["body"])
+            const methodName = this.chatbot.messages[this.chatbot.messages.length - 1]["function"]
+            const chatgptReply = this.chatbot.messages[this.chatbot.messages.length - 1]["chatgpt_reply"]
+
+            if (methodName != null) {
+                this.user.invokeMethod(methodName, userReply)
+            }
+            if (chatgptReply) {
+                await this.chatbot.apiGetChatGptResponse(userReply, this.chatbot.messages[this.chatbot.messages.length - 1]["body"])
+            }
+
             this.user.updateScore(5);
             this.getNextMessageFromChatbot(latestMessageId)
             this.scrollToBottom();
@@ -75,7 +85,7 @@ export default {
         // We use -1 here to get message index 0 initially
         await this.chatbot.apiGetNextResponseFromChatbot(-1);
         this.responses = this.chatbot.messages[this.chatbot.messages.length - 1]["responses"]
-        if (this.responses.length == 0) {
+        if (!this.chatbot.messages[this.chatbot.messages.length - 1]["response_required"]) {
             const latestMessageId = this.chatbot.messages[this.chatbot.messages.length - 1]["id"]
             await this.getNextMessageFromChatbot(latestMessageId)
         }

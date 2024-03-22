@@ -30,13 +30,13 @@ MESSAGES = [
     },
     {
         "body": "What's your name?",
-        "chatgpt_reply": False,
+        "chatgpt_reply": True,
         "function": "updateName",
         "response_required": True,
         "responses": [],
     },
     {
-        "body": "Awesome[name]!Let's select your avatar - please choose one that you resonate with the most",
+        "body": "Let's select your avatar - please choose one that you resonate with the most",
         "chatgpt_reply": False,
         "function": "updateGender",
         "response_required": True,

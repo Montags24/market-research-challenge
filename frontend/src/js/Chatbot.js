@@ -59,7 +59,7 @@ class Chatbot {
     })
   }
 
-  apiGetChatGptResponse (userReply, previousQuestion) {
+  apiGetChatGptResponse (userReply, previousQuestion, userName) {
     console.log('In apiGetReplyFromChatbot')
 
     return new Promise((resolve, reject) => {
@@ -67,6 +67,7 @@ class Chatbot {
       if (userReply != null) {
         payload.user_reply = userReply
         payload.previous_question = previousQuestion
+        payload.user_name = userName
 
         this.pushUserReplyToMessages(userReply)
       }

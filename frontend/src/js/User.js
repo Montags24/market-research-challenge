@@ -11,7 +11,7 @@ class User {
     this.score += scoreToAdd
   }
 
-  updateAvater (userReply) {
+  updateGender (userReply) {
     if (userReply === 'male') {
       this.gender = 'male'
       this.avatar = 'fc-businessman'

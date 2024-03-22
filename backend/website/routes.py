@@ -95,10 +95,13 @@ def handle_user_response() -> dict:
         try:
             user_reply = api_package["user_reply"]
             previous_question = api_package["previous_question"]
+            user_name = api_package["user_name"]
 
             # Generate response from ChatGPT
             response = generate_chatgpt_response(
-                user_reply=user_reply, previous_question=previous_question
+                user_reply=user_reply,
+                previous_question=previous_question,
+                user_name=user_name,
             )
 
             chatgpt_reply = dict(

@@ -69,7 +69,9 @@ export default {
                 this.user.invokeMethod(methodName, userReply)
             }
             if (chatgptReply) {
-                await this.chatbot.apiGetChatGptResponse(userReply, this.chatbot.messages[this.chatbot.messages.length - 1]["body"])
+                await this.chatbot.apiGetChatGptResponse(userReply, this.chatbot.messages[this.chatbot.messages.length - 1]["body"], this.user.name)
+            } else {
+                this.chatbot.pushUserReplyToMessages(userReply)
             }
 
             this.user.updateScore(5);

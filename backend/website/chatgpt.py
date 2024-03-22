@@ -12,16 +12,21 @@ client = OpenAI(
 
 
 def generate_chatgpt_response(
-    user_reply: str, previous_question: str, name: str = None
+    user_reply: str, previous_question: str, user_name: str = None
 ) -> str:
-    prompt = f"{previous_question} User: {user_reply}\nAI:"
+    # Construct prompt with user's name if provided
+    if user_name:
+        prompt = f"{previous_question} User ({user_name}): {user_reply}\nAI:"
+    else:
+        prompt = f"{previous_question} User: {user_reply}\nAI:"
 
+    # Call OpenAI API to generate response
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
             {
                 "role": "system",
-                "content": f"Respond to {name} in a friendly manner and avoid asking questions.",
+                "content": f"Respond to {user_name if user_name else 'the user'} in a friendly manner and avoid asking questions.",
             },
             {
                 "role": "assistant",

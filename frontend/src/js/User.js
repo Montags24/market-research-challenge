@@ -48,6 +48,7 @@ class User {
         .then(apiObject => {
           try {
             if (apiObject.rc == 0) {
+              console.log(apiObject.user_data)
               resolve(apiObject.message)
             } else {
               console.log('Failed to get user details')

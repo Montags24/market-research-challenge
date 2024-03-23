@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 
 from flask import current_app as app
-from flask import render_template, request
+from flask import render_template, request, jsonify
 from flask_cors import CORS
 
 # from website import db
@@ -49,7 +49,7 @@ def get_next_message_from_chatbot() -> dict:
 
             if message_id < len(CHATBOT_MESSAGES):
                 return (
-                    dict(
+                    jsonify(
                         rc=0,
                         message="Success",
                         chatbot_reply=CHATBOT_MESSAGES[message_id + 1],
@@ -61,7 +61,7 @@ def get_next_message_from_chatbot() -> dict:
 
         except KeyError:
             return (
-                dict(
+                jsonify(
                     rc=16,
                     message="Error - wrong key provided",
                 ),
@@ -70,7 +70,7 @@ def get_next_message_from_chatbot() -> dict:
 
     except IndexError:
         return (
-            dict(
+            jsonify(
                 rc=16,
                 message="Error - provided message ID is out of range",
             ),
@@ -78,7 +78,7 @@ def get_next_message_from_chatbot() -> dict:
         )
 
     except Exception as e:
-        return dict(rc=16, message=f"An error occurred - {e}"), 500
+        return jsonify(rc=16, message=f"An error occurred - {e}"), 500
 
 
 @app.route("/api/chatgpt/response", methods=["POST"])
@@ -116,7 +116,7 @@ def handle_user_response() -> dict:
             )
 
             return (
-                dict(
+                jsonify(
                     rc=0,
                     message="Success",
                     chatgpt_reply=chatgpt_reply,
@@ -124,52 +124,55 @@ def handle_user_response() -> dict:
                 200,
             )
         except KeyError:
-            return dict(rc=16, message="Error - required key(s) not found"), 400
+            return jsonify(rc=16, message="Error - required key(s) not found"), 400
 
     except Exception as e:
-        return dict(rc=16, message=f"An error occurred - {e}"), 500
+        return jsonify(rc=16, message=f"An error occurred - {e}"), 500
 
 
 @app.route("/auth/google/callback", methods=["POST"])
 def google_callback():
-    # Get the authorization code from the request
-    api_package = request.get_json()
-    code = api_package["code"]
+    try:
+        # Get the authorization code from the request
+        api_package = request.get_json()
+        code = api_package.get("code")
+        if not code:
+            raise ValueError("Authorization code not provided")
 
-    # Exchange the authorization code for an access token
-    # You should replace the placeholders with your actual client ID, client secret, and redirect URI
-    uri = os.environ.get("GOOGLE_OAUTH_REDIRECT_URL")
-    response = requests.post(
-        "https://oauth2.googleapis.com/token",
-        data={
-            "code": code,
-            "client_id": os.environ.get("GOOGLE_OAUTH_CLIENT_ID"),
-            "client_secret": os.environ.get("GOOGLE_OAUTH_CLIENT_SECRET"),
-            "redirect_uri": os.environ.get("GOOGLE_OAUTH_REDIRECT_URL"),
-            "grant_type": "authorization_code",
-        },
-    )
-
-    # If the response is successful, parse the access token from the response
-    if response.status_code == 200:
-        data = response.json()
-        access_token = data.get("access_token")
-
-        # If we have an access token, fetch the user's details
-        if access_token:
-            response = requests.get(
-                "https://www.googleapis.com/oauth2/v3/userinfo",
-                headers={"Authorization": f"Bearer {access_token}"},
+        # Exchange the authorization code for an access token
+        token_response = requests.post(
+            "https://oauth2.googleapis.com/token",
+            data={
+                "code": code,
+                "client_id": os.environ.get("GOOGLE_OAUTH_CLIENT_ID"),
+                "client_secret": os.environ.get("GOOGLE_OAUTH_CLIENT_SECRET"),
+                "redirect_uri": os.environ.get("GOOGLE_OAUTH_REDIRECT_URL"),
+                "grant_type": "authorization_code",
+            },
+        )
+        token_response.raise_for_status()  # Raise exception for non-2xx status codes
+        token_data = token_response.json()
+        access_token = token_data.get("access_token")
+        if not access_token:
+            return (
+                jsonify(rc=16, message="Access token not found in token response"),
+                400,
             )
 
-            # If the response is successful, parse the user's details from the response
-            if response.status_code == 200:
-                user_data = response.json()
-                # Do something with the user's data, e.g. save it to your database
-                return {"status": "success", "data": user_data}
-            else:
-                return {"status": "error", "message": "Failed to fetch user data"}
-        else:
-            return {"status": "error", "message": "Failed to get access token"}
-    else:
-        return {"status": "error", "message": "Failed to exchange authorization code"}
+        # Fetch user data using the access token
+        user_response = requests.get(
+            "https://www.googleapis.com/oauth2/v3/userinfo",
+            headers={"Authorization": f"Bearer {access_token}"},
+        )
+        user_response.raise_for_status()  # Raise exception for non-2xx status codes
+        user_data = user_response.json()
+
+        return jsonify(rc=0, user_data=user_data, message="Success"), 200
+
+    except requests.RequestException as e:
+        return jsonify(rc=16, message=f"Google API request failed: {str(e)}"), 500
+
+    except ValueError as ve:
+        return jsonify(rc=16, message=str(ve)), 400
+    except Exception as ex:
+        return jsonify(rc=16, message=f"An error occurred: {str(ex)}"), 500

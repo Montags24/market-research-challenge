@@ -27,6 +27,43 @@ class User {
     }
   }
 
+  fetchGoogleUserData (code) {
+    console.log('In fetchGoogleUserData')
+    return new Promise((resolve, reject) => {
+      const payload = {}
+      payload.code = code
+
+      const requestOptions = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      }
+
+      const url = this.domainOrigin + '/auth/google/callback'
+
+      fetch(url, requestOptions)
+        .then(response => response.json())
+        .then(apiObject => {
+          try {
+            if (apiObject.rc == 0) {
+              resolve(apiObject.message)
+            } else {
+              console.log('Failed to get user details')
+            }
+          } catch (error) {
+            console.log(error)
+            reject(error)
+          }
+        })
+        .catch(error => {
+          console.log(error)
+          reject(error)
+        })
+    })
+  }
+
   invokeMethod (methodName, ...args) {
     // Check if the method exists
     if (typeof this[methodName] === 'function') {

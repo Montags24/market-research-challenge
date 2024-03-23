@@ -1,3 +1,7 @@
+import requests
+import os
+from dotenv import load_dotenv
+
 from flask import current_app as app
 from flask import render_template, request
 from flask_cors import CORS
@@ -6,9 +10,12 @@ from flask_cors import CORS
 from website.chatgpt import generate_chatgpt_response
 from website.utils import CHATBOT_MESSAGES
 
-
 # enable CORS
 CORS(app, resources={r"/*": {"origins": "*"}})
+
+this_directory = os.path.abspath(os.path.dirname(__file__))
+
+load_dotenv(os.path.join(this_directory, "../.env"))
 
 
 @app.route("/")
@@ -121,3 +128,48 @@ def handle_user_response() -> dict:
 
     except Exception as e:
         return dict(rc=16, message=f"An error occurred - {e}"), 500
+
+
+@app.route("/auth/google/callback", methods=["POST"])
+def google_callback():
+    # Get the authorization code from the request
+    api_package = request.get_json()
+    code = api_package["code"]
+
+    # Exchange the authorization code for an access token
+    # You should replace the placeholders with your actual client ID, client secret, and redirect URI
+    uri = os.environ.get("GOOGLE_OAUTH_REDIRECT_URL")
+    response = requests.post(
+        "https://oauth2.googleapis.com/token",
+        data={
+            "code": code,
+            "client_id": os.environ.get("GOOGLE_OAUTH_CLIENT_ID"),
+            "client_secret": os.environ.get("GOOGLE_OAUTH_CLIENT_SECRET"),
+            "redirect_uri": os.environ.get("GOOGLE_OAUTH_REDIRECT_URL"),
+            "grant_type": "authorization_code",
+        },
+    )
+
+    # If the response is successful, parse the access token from the response
+    if response.status_code == 200:
+        data = response.json()
+        access_token = data.get("access_token")
+
+        # If we have an access token, fetch the user's details
+        if access_token:
+            response = requests.get(
+                "https://www.googleapis.com/oauth2/v3/userinfo",
+                headers={"Authorization": f"Bearer {access_token}"},
+            )
+
+            # If the response is successful, parse the user's details from the response
+            if response.status_code == 200:
+                user_data = response.json()
+                # Do something with the user's data, e.g. save it to your database
+                return {"status": "success", "data": user_data}
+            else:
+                return {"status": "error", "message": "Failed to fetch user data"}
+        else:
+            return {"status": "error", "message": "Failed to get access token"}
+    else:
+        return {"status": "error", "message": "Failed to exchange authorization code"}

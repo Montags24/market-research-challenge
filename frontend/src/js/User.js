@@ -5,6 +5,7 @@ class User {
     this.avatar = 'ri-chat-voice-fill'
     this.name = ''
     this.gender = 'none'
+    this.loggedIn = false
   }
 
   updateScore (scoreToAdd) {
@@ -49,6 +50,9 @@ class User {
           try {
             if (apiObject.rc == 0) {
               console.log(apiObject.user_data)
+              this.name = apiObject.user_data.name
+              this.avatar = apiObject.user_data.picture
+              this.loggedIn = true
               resolve(apiObject.message)
             } else {
               console.log('Failed to get user details')

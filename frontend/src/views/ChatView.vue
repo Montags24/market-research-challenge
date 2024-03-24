@@ -4,7 +4,7 @@
         <div class="flex flex-col gap-y-1 overflow-y-auto">
             <div v-for="(message, index) in chatbot.messages" :key="index">
                 <Message :sender="message.sender" :message="message.body" :timestamp="message.timestamp"
-                    :continuedMessage="checkPreviousSender(index)"></Message>
+                    :continuedMessage="checkPreviousSender(index)" :user="user"></Message>
             </div>
             <div ref="hiddenContent" class="pb-[150px]"></div>
         </div>

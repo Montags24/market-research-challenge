@@ -6,6 +6,7 @@
             :class="{ 'justify-start flex-row-reverse': sender !== 'bot', 'px-[48px]': continuedMessage }">
             <span v-if="!continuedMessage" class="w-8 h-8 rounded-full">
                 <img v-if="sender === 'bot'" :src="chatbotAvatar" alt="chatbot-avatar">
+                <img v-else-if="user.loggedIn" :src="user.avatar" alt="user-avatar" class="rounded-full">
                 <v-icon v-else name="ri-chat-voice-fill" fill="blue" scale="1.5" />
             </span>
             <template v-if="isVideoMessage">
@@ -40,6 +41,9 @@ export default {
         continuedMessage: {
             type: Boolean,
             default: false
+        },
+        user: {
+            type: Object,
         }
     },
     data() {

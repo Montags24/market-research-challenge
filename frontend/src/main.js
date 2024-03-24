@@ -6,9 +6,9 @@ import router from './router'
 import './index.css'
 
 import { OhVueIcon, addIcons } from 'oh-vue-icons'
-import { IoSend, RiChatVoiceFill } from 'oh-vue-icons/icons'
+import { IoSend, RiChatVoiceFill, FcBusinessman, FcBusinesswoman } from 'oh-vue-icons/icons'
 
-addIcons(IoSend, RiChatVoiceFill)
+addIcons(IoSend, RiChatVoiceFill, FcBusinessman, FcBusinesswoman)
 
 const app = createApp(App)
 

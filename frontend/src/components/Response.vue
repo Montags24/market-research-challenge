@@ -5,7 +5,7 @@
                 <div v-for="(option, index) in options" :key="index" class="pt-1">
                     <button
                         class="border border-slate-400 rounded-full px-3 text-sm font-montserrat whitespace-nowrap hover:bg-blue-500"
-                        @click="clickButton(option)">{{
+                        @click="selectResponse(option)">{{
                     option
                 }}</button>
                 </div>
@@ -34,8 +34,8 @@ export default {
         }
     },
     methods: {
-        clickButton(text) {
-            this.message = text
+        selectResponse(text) {
+            this.$emit('emitResponse', text)
         },
         sendMessage() {
             this.$emit('emitResponse', this.message)

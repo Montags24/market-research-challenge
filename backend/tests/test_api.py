@@ -64,7 +64,11 @@ def test_chatbot_invalid_message_id(client):
 
 
 def test_chatgpt_successful_response(client):
-    api_package = {"user_reply": "Test reply", "previous_question": "Test question"}
+    api_package = {
+        "user_reply": "Test reply",
+        "previous_question": "Test question",
+        "user_name": "test name",
+    }
 
     response = client.post("/api/chatgpt/response", json=api_package)
 

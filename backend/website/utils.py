@@ -1,3 +1,22 @@
+WELCOME_MESSAGE = [
+    {
+        "body": """Hi there 👋! Welcome to NextGenVoice!
+        A social platform to share your thoughts, drive change and earn rewards along the way!""",
+        "chatgpt_reply": False,
+        "function": None,
+        "response_required": False,
+        "responses": [],
+    },
+    {
+        "body": """For the best experience, please sign in using Google.""",
+        "chatgpt_reply": False,
+        "function": None,
+        "response_required": True,
+        "responses": ["I don't have a Google account."],
+    },
+]
+
+
 MESSAGES = [
     {
         "body": """Hi there 👋! Welcome to NextGenVoice!
@@ -54,6 +73,8 @@ MESSAGES = [
         ],
     },
 ]
+
+NO_LOGIN_SURVEY_QUESTIONS = 
 
 CHATBOT_MESSAGES = [
     {

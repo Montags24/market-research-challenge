@@ -1,3 +1,6 @@
+import uuid
+
+
 class Question:
     def __init__(
         self,
@@ -7,6 +10,7 @@ class Question:
         response_required=False,
         responses=None,
     ):
+        self.id = uuid.uuid4()
         self.body = body
         self.chatgpt_reply = chatgpt_reply
         self.function = function
@@ -38,6 +42,9 @@ WELCOME_QUESTIONS = [
     ),
     Question(
         """For the best experience, please sign in using Google.""",
+    ),
+    Question(
+        """Once you're done, send a reply :)""",
         response_required=True,
         responses=["I don't have an account", "I am logged in!"],
     ),

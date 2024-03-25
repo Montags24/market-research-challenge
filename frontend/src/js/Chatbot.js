@@ -6,6 +6,7 @@ class Chatbot {
     this.questionBank = []
     this.responses = []
     this.waitingUserReply = false
+    this.collectedUserResponses = []
   }
 
   getTimestamp () {

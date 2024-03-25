@@ -27,7 +27,11 @@ def index():
 
 @app.route("/api/chatbot/question_bank", methods=["POST"])
 def get_chatbot_questions() -> dict:
-    """ """
+    """Endpoint to retrieve chatbot questions based on the provided question bank.
+
+    Returns:
+        dict: A dictionary containing the chatbot questions along with a return code and message.
+    """
     try:
         api_package = request.get_json()
 

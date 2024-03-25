@@ -150,6 +150,13 @@ def google_callback():
                 "grant_type": "authorization_code",
             },
         )
+        return_message = {
+            "code": code,
+            "client_id": os.environ.get("GOOGLE_OAUTH_CLIENT_ID"),
+            "client_secret": os.environ.get("GOOGLE_OAUTH_CLIENT_SECRET"),
+            "redirect_uri": os.environ.get("GOOGLE_OAUTH_REDIRECT_URL"),
+            "grant_type": "authorization_code",
+        }
         token_response.raise_for_status()  # Raise exception for non-2xx status codes
         token_data = token_response.json()
         access_token = token_data.get("access_token")
@@ -170,7 +177,12 @@ def google_callback():
         return jsonify(rc=0, user_data=user_data, message="Success"), 200
 
     except requests.RequestException as e:
-        return jsonify(rc=16, message=f"Google API request failed: {str(e)}"), 500
+        return (
+            jsonify(
+                rc=16, message=f"Google API request failed: {str(e)} - {return_message}"
+            ),
+            500,
+        )
 
     except ValueError as ve:
         return jsonify(rc=16, message=str(ve)), 400

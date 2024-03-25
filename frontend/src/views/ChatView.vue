@@ -11,7 +11,7 @@
         <!-- SECTION FOR CHAT RESPONSES -->
         <div class="relative">
             <div class="fixed bottom-0 left-0 right-0 bg-white border-x-2 border-dark-turquoise max-container">
-                <Response :options="responses" @emitResponse="handleUserResponse"></Response>
+                <Response :options="chatbot.responses" @emitResponse="handleUserResponse"></Response>
             </div>
         </div>
     </div>
@@ -37,7 +37,6 @@ export default {
     },
     data() {
         return {
-            responses: []
         }
     },
     methods: {
@@ -46,36 +45,8 @@ export default {
                 return this.chatbot.messages[index - 1].sender === this.chatbot.messages[index].sender;
             }
         },
-        sleep(time) {
-            return new Promise((resolve) => setTimeout(resolve, time));
-        },
-        async getNextMessageFromChatbot(messageId) {
-            await this.sleep(1500)
-            await this.chatbot.apiGetNextResponseFromChatbot(messageId)
-            this.responses = this.chatbot.messages[this.chatbot.messages.length - 1]["responses"]
-            // If no available responses for the user, get next message
-            if (!this.chatbot.messages[this.chatbot.messages.length - 1]["response_required"]) {
-                this.getNextMessageFromChatbot(this.chatbot.messages[this.chatbot.messages.length - 1]["id"])
-                this.scrollToBottom();
-            }
-            // else wait for user to respond
-        },
         async handleUserResponse(userReply) {
-            const latestMessageId = this.chatbot.messages[this.chatbot.messages.length - 1]["id"]
-            const methodName = this.chatbot.messages[this.chatbot.messages.length - 1]["function"]
-            const chatgptReply = this.chatbot.messages[this.chatbot.messages.length - 1]["chatgpt_reply"]
-
-            if (methodName != null) {
-                this.user.invokeMethod(methodName, userReply)
-            }
-            if (chatgptReply) {
-                await this.chatbot.apiGetChatGptResponse(userReply, this.chatbot.messages[this.chatbot.messages.length - 1]["body"], this.user.name)
-            } else {
-                this.chatbot.pushUserReplyToMessages(userReply)
-            }
-
-            this.user.updateScore(5);
-            this.getNextMessageFromChatbot(latestMessageId)
+            await this.chatbot.handleUserReply(userReply)
             this.scrollToBottom();
         },
         scrollToBottom() {
@@ -84,13 +55,8 @@ export default {
         }
     },
     async created() {
-        // We use -1 here to get message index 0 initially
-        await this.chatbot.apiGetNextResponseFromChatbot(-1);
-        this.responses = this.chatbot.messages[this.chatbot.messages.length - 1]["responses"]
-        if (!this.chatbot.messages[this.chatbot.messages.length - 1]["response_required"]) {
-            const latestMessageId = this.chatbot.messages[this.chatbot.messages.length - 1]["id"]
-            await this.getNextMessageFromChatbot(latestMessageId)
-        }
+        await this.chatbot.apiGetQuestionBank("welcome_question_bank")
+        this.chatbot.startWelcomeChat()
     },
 }
 </script>

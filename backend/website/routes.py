@@ -8,7 +8,7 @@ from flask_cors import CORS
 
 # from website import db
 from website.chatgpt import generate_chatgpt_response
-from website.utils import CHATBOT_MESSAGES
+from website.utils import QUESTION_BANK
 
 # enable CORS
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -23,6 +23,29 @@ load_dotenv(os.path.join(this_directory, "../.env"))
 def index():
     # This is a vue project that serves the static index file only
     return render_template("index.html")
+
+
+@app.route("/api/chatbot/question_bank", methods=["POST"])
+def get_chatbot_questions() -> dict:
+    """ """
+    try:
+        api_package = request.get_json()
+
+        question_bank = api_package["questionBank"]
+        chatbot_questions = QUESTION_BANK[question_bank]
+
+        return dict(rc=0, chatbot_questions=chatbot_questions, message="Success"), 200
+
+    except KeyError:
+        return (
+            jsonify(
+                rc=16,
+                message="Error - wrong key provided",
+            ),
+            400,
+        )
+    except Exception as e:
+        return jsonify(rc=16, message=f"An error occurred - {e}"), 500
 
 
 @app.route("/api/chatbot/response", methods=["POST"])

@@ -13,7 +13,7 @@ if (domainOrigin.slice(-5) == ":5173") {
 }
 
 const user = reactive(new User(domainOrigin))
-const chatbot = reactive(new Chatbot(domainOrigin))
+const chatbot = reactive(new Chatbot(domainOrigin, user))
 
 
 </script>

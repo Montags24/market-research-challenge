@@ -55,7 +55,7 @@ class User {
               this.loggedIn = true
               resolve(apiObject.message)
             } else {
-              console.log('Failed to get user details')
+              reject(apiObject.message)
             }
           } catch (error) {
             console.log(error)

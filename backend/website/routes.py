@@ -48,62 +48,6 @@ def get_chatbot_questions() -> dict:
         return jsonify(rc=16, message=f"An error occurred - {e}"), 500
 
 
-@app.route("/api/chatbot/response", methods=["POST"])
-def get_next_message_from_chatbot() -> dict:
-    """
-    Get the next message from the chatbot based on the provided message ID.
-
-    Returns:
-        dict: A dictionary containing the response status and the next chatbot message.
-            If successful, returns the next chatbot message along with a success message.
-            If an error occurs, returns an error code and message.
-
-    Raises:
-        KeyError: If the required key "messageId" is not provided in the request JSON.
-        IndexError: If the provided message ID is out of range of available chatbot messages.
-        Exception: If an unexpected error occurs.
-
-    """
-    try:
-        api_package = request.get_json()
-
-        try:
-            message_id = api_package["messageId"]
-
-            if message_id < len(CHATBOT_MESSAGES):
-                return (
-                    jsonify(
-                        rc=0,
-                        message="Success",
-                        chatbot_reply=CHATBOT_MESSAGES[message_id + 1],
-                    ),
-                    200,
-                )
-            else:
-                raise IndexError("Provided message ID is out of range.")
-
-        except KeyError:
-            return (
-                jsonify(
-                    rc=16,
-                    message="Error - wrong key provided",
-                ),
-                400,
-            )
-
-    except IndexError:
-        return (
-            jsonify(
-                rc=16,
-                message="Error - provided message ID is out of range",
-            ),
-            400,
-        )
-
-    except Exception as e:
-        return jsonify(rc=16, message=f"An error occurred - {e}"), 500
-
-
 @app.route("/api/chatgpt/response", methods=["POST"])
 def handle_user_response() -> dict:
     """

@@ -8,6 +8,13 @@ MESSAGES = [
         "responses": [],
     },
     {
+        "body": """For the best experience, please login""",
+        "chatgpt_reply": False,
+        "function": None,
+        "response_required": True,
+        "responses": ["It's my first time!"],
+    },
+    {
         "body": "Before we get started, here's a short video on what to expect!",
         "chatgpt_reply": False,
         "function": None,

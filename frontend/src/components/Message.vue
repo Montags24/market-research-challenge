@@ -10,7 +10,7 @@
                 <v-icon v-else name="ri-chat-voice-fill" fill="blue" scale="1.5" />
             </span>
             <template v-if="isVideoMessage">
-                <video class="max-w-48 sm:max-w-72 rounded-lg" controls>
+                <video class="max-w-48 sm:max-w-72 rounded-lg" controls :poster="previewImage">
                     <source :src="video" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
@@ -27,6 +27,7 @@
 <script>
 import testVideo from '@/assets/test_video.mp4';
 import { chatbotAvatar } from '@/assets/images';
+import { previewImage } from '@/assets/images';
 export default {
     props: {
         sender: {
@@ -49,7 +50,8 @@ export default {
     data() {
         return {
             video: testVideo,
-            chatbotAvatar: chatbotAvatar
+            chatbotAvatar: chatbotAvatar,
+            previewImage: previewImage
         }
     },
     computed: {

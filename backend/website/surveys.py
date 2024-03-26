@@ -42,12 +42,12 @@ WELCOME_QUESTIONS = [
         A social platform to share your thoughts, drive change and earn rewards along the way!"""
     ),
     Question(
-        """For the best experience, please sign in using Google""",
+        """For the best experience, please sign in""",
     ),
     Question(
         """Once you're done, send a reply :)""",
         response_required=True,
-        responses=["I don't have an account", "I've logged in!"],
+        responses=["All done, let's go!"],
     ),
 ]
 

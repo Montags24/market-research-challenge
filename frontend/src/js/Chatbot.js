@@ -28,22 +28,36 @@ class Chatbot {
       timestamp: this.getTimestamp()
     })
   }
+  async checkUserSignedIn () {
+    if (!this.user.loggedIn) {
+      await this.sleep(1000)
+      this.addMessageToChat('bot', 'Please sign in to continue!')
+      this.waitingUserReply = true
+      // Wait for user reply asynchronously
+      await new Promise(resolve => {
+        const intervalId = setInterval(() => {
+          if (!this.waitingUserReply && this.user.loggedIn) {
+            clearInterval(intervalId)
+            resolve()
+          }
+        }, 100) // Check every 100 milliseconds for user reply
+      })
+    }
+  }
 
   async startWelcomeChat () {
     console.log('Starting chat...')
     await this.startChat()
     console.log('Finished chat...')
-    if (this.user.loggedIn) {
-      this.apiGetQuestionBank('initial_survey_question_bank')
-    } else {
-      this.apiGetQuestionBank('initial_survey_question_bank_no_login')
-    }
+    await this.checkUserSignedIn()
+    this.apiGetQuestionBank('initial_survey_question_bank')
     await this.sleep(1500)
     await this.startChat()
   }
 
   async startChat () {
     for (let i = 0; i < this.questionBank.length; i++) {
+      await this.sleep(1500)
       this.addMessageToChat('bot', this.questionBank[i]['body'], this.questionBank[i]['responses'])
       this.responses = this.questionBank[i]['responses']
       if (this.questionBank[i]['response_required']) {
@@ -58,7 +72,7 @@ class Chatbot {
           }, 100) // Check every 100 milliseconds for user reply
         })
       } else {
-        await this.sleep(1500)
+        await this.sleep(1000)
       }
     }
     console.log('out the for loop')

@@ -42,7 +42,7 @@ WELCOME_QUESTIONS = [
         A social platform to share your thoughts, drive change and earn rewards along the way!"""
     ),
     Question(
-        """For the best experience, please sign in""",
+        """Please sign in, we don't want to lose your progress!""",
     ),
     Question(
         """Once you're done, send a reply :)""",
@@ -53,7 +53,7 @@ WELCOME_QUESTIONS = [
 
 INITIAL_SURVEY_QUESTIONS = [
     Question(
-        "Thanks for logging in! Before we get started, here's a short video on what to expect!"
+        "Nice one! Before we get started, here's a short video on what to expect!"
     ),
     Question(
         "test_video.mp4",
@@ -62,46 +62,25 @@ INITIAL_SURVEY_QUESTIONS = [
         responses=["I've finished the video, let's continue!"],
     ),
     Question(
-        "First things first, we need to get to know you so we can provide you with the best experience!"
+        "First a bit of admin - we need to get to know you so we can provide you with the best experience!"
     ),
     Question(
-        "Let's select your avatar - please choose one that you resonate with the most",
+        "What's your gender?",
         response_required=True,
-        responses=["👨", "👩", "Prefer not to say"],
+        responses=["Female", "Male", "Another gender", "Prefer not to say"],
+    ),
+    Question(
+        "And how old are you?",
+        response_required=True,
+        responses=["16-24", "25-34", "35-44", "45-54", "55-64", "65+"],
+    ),
+    Question(
+        "That's it for the admin, let's get started!",
     ),
 ]
 
-INITIAL_SURVEY_QUESTIONS_NO_LOGIN = [
-    Question(
-        "That's okay! Before we get started, here's a short video on what to expect!"
-    ),
-    Question(
-        "test_video.mp4",
-        chatgpt_reply=True,
-        response_required=True,
-        responses=["I've finished the video, let's continue!"],
-    ),
-    Question(
-        "First things first, we need to get to know you so we can provide you with the best experience!"
-    ),
-    Question(
-        "What's your name?",
-        chatgpt_reply=True,
-        function="updateName",
-        response_required=True,
-    ),
-    Question(
-        "Let's select your avatar - please choose one that you resonate with the most",
-        function="updateGender",
-        response_required=True,
-        responses=["👨", "👩", "Prefer not to say"],
-    ),
-]
 
 QUESTION_BANK = {
     "welcome_question_bank": QuestionBank(WELCOME_QUESTIONS).to_list(),
     "initial_survey_question_bank": QuestionBank(INITIAL_SURVEY_QUESTIONS).to_list(),
-    "initial_survey_question_bank_no_login": QuestionBank(
-        INITIAL_SURVEY_QUESTIONS_NO_LOGIN
-    ).to_list(),
 }

@@ -52,12 +52,16 @@
                         <div class="mb-2">
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
                                 Password
-                                {{ password }}
                             </label>
-                            <input
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                                :class="!validatePassword(password) ? 'border-red-500' : 'border-green-500'"
-                                id="password" type="password" v-model="password">
+                            <div class="flex items-center mb-3 gap-x-1">
+                                <input
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    :class="!validatePassword(password) ? 'border-red-500' : 'border-green-500'"
+                                    id="password" :type="passwordVisibility ? 'password' : 'text'" v-model="password">
+                                <img :src="passwordVisibility ? toggleVisibilityOn : toggleVisibilityOff"
+                                    alt="toggle-password-visibility" class="hover:cursor-pointer"
+                                    @click="togglePasswordVisibility">
+                            </div>
                             <div v-if="!validatePassword(password)" class="text-sm text-red-500">
                                 <p>Password must contain:</p>
                                 <ul class=" text-xs italic list-disc ps-5">
@@ -94,6 +98,9 @@
 </template>
 
 <script>
+import { toggleVisibilityOn } from '@/assets/svg'
+import { toggleVisibilityOff } from '@/assets/svg'
+
 export default {
     emits: ['toggleRegisterModalVisibility'],
     props: {
@@ -111,10 +118,16 @@ export default {
             lastName: '',
             email: '',
             password: '',
-            passwordError: ''
+            passwordError: '',
+            toggleVisibilityOff: toggleVisibilityOff,
+            toggleVisibilityOn: toggleVisibilityOn,
+            passwordVisibility: false
         };
     },
     methods: {
+        togglePasswordVisibility() {
+            this.passwordVisibility = !this.passwordVisibility
+        },
         toggleModal() {
             this.$emit('toggleRegisterModalVisibility')
         },

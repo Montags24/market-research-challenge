@@ -31,6 +31,11 @@
                             <img src="https://svgshare.com/i/14iL.svg" alt="Google Icon" class="h-[24px]">
                             Login with Google
                         </button>
+                        <button
+                            class="flex items-center justify-center gap-2 border-slate-200 border-2 bg-dark-turquoise text-white px-4 py-2 rounded-lg hover:bg-black transition duration-300"
+                            @click="signInWithGoogle">
+                            Login with Email
+                        </button>
                         <p class="text-lg text-gray-600">Don't have an account?</p>
                         <button
                             class="flex items-center justify-center gap-2 border-slate-200 border-2 bg-dark-turquoise text-white px-4 py-2 rounded-lg hover:bg-black transition duration-300"

@@ -20,7 +20,7 @@ const chatbot = reactive(new Chatbot(domainOrigin, user))
 
 <template>
   <div>
-    <!-- Dark overlay -->
+    <!-- Dark overlay for modals-->
     <div class="fixed inset-0 bg-black opacity-50 z-20" v-show="darkOverlay"></div>
 
     <!-- Header -->

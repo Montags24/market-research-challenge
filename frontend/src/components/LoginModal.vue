@@ -33,7 +33,8 @@
                         </button>
                         <p class="text-lg text-gray-600">Don't have an account?</p>
                         <button
-                            class="flex items-center justify-center gap-2 border-slate-200 border-2 bg-dark-turquoise text-white px-4 py-2 rounded-lg hover:bg-black transition duration-300">
+                            class="flex items-center justify-center gap-2 border-slate-200 border-2 bg-dark-turquoise text-white px-4 py-2 rounded-lg hover:bg-black transition duration-300"
+                            @click="toggleRegisterModal">
                             Register
                         </button>
                     </div>
@@ -53,7 +54,7 @@
 <script>
 import { googleSdkLoaded } from 'vue3-google-login'
 export default {
-    emits: ['toggleModalVisibility'],
+    emits: ['toggleModalVisibility', 'toggleRegisterModal'],
     props: {
         visible: {
             type: Boolean,
@@ -70,6 +71,9 @@ export default {
     methods: {
         toggleModal() {
             this.$emit('toggleModalVisibility')
+        },
+        toggleRegisterModal() {
+            this.$emit('toggleRegisterModal')
         },
         signInWithGoogle() {
             googleSdkLoaded(google => {

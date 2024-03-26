@@ -21,14 +21,19 @@ const chatbot = reactive(new Chatbot(domainOrigin, user))
 <template>
   <div>
     <!-- Dark overlay -->
-    <div class="fixed inset-0 bg-black opacity-50 z-20" v-show="modalVisible"></div>
+    <div class="fixed inset-0 bg-black opacity-50 z-20" v-show="darkOverlay"></div>
 
     <!-- Header -->
     <header class="relative z-30">
       <!-- Include NavBar component for navigation -->
       <div class="fixed top-0 left-0 right-0">
         <NavBar :user="user" @toggleModalVisibility="toggleModal" />
-        <LoginModal :visible="modalVisible" :user="user" @toggleModalVisibility="toggleModal" class="z-30"></LoginModal>
+        <LoginModal :visible="modalVisible" :user="user" @toggleModalVisibility="toggleModal"
+          @toggleRegisterModal="toggleRegisterModal">
+        </LoginModal>
+        <RegisterModal :user :registerModalVisible="registerModalVisible"
+          @toggleRegisterModalVisibility="toggleRegisterModal">
+        </RegisterModal>
       </div>
     </header>
 
@@ -48,21 +53,32 @@ const chatbot = reactive(new Chatbot(domainOrigin, user))
 <script>
 import NavBar from './components/NavBar.vue'
 import LoginModal from '@/components/LoginModal.vue';
+import RegisterModal from '@/components/RegisterModal.vue';
 
 export default {
   components: {
     NavBar,
-    LoginModal
+    LoginModal,
+    RegisterModal
   },
   data() {
     return {
-      darkMode: false,
-      modalVisible: false
+      modalVisible: false,
+      registerModalVisible: false,
     }
   },
   methods: {
     toggleModal() {
       this.modalVisible = !this.modalVisible
+    },
+    toggleRegisterModal() {
+      this.modalVisible = false
+      this.registerModalVisible = !this.registerModalVisible
+    }
+  },
+  computed: {
+    darkOverlay() {
+      return this.modalVisible || this.registerModalVisible
     }
   },
 }

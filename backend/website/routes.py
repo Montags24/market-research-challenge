@@ -8,7 +8,7 @@ from flask_cors import CORS
 
 # from website import db
 from website.chatgpt import generate_chatgpt_response
-from website.utils import QUESTION_BANK
+from website.surveys import QUESTION_BANK
 
 # enable CORS
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -44,7 +44,7 @@ def get_chatbot_questions() -> dict:
         return (
             jsonify(
                 rc=16,
-                message="Error - wrong key provided",
+                message="Error - survey does not exist in database",
             ),
             400,
         )

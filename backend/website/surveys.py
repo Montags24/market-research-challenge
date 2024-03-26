@@ -19,6 +19,7 @@ class Question:
 
     def to_dict(self):
         return {
+            "id": self.id,
             "body": self.body,
             "chatgpt_reply": self.chatgpt_reply,
             "function": self.function,
@@ -41,12 +42,12 @@ WELCOME_QUESTIONS = [
         A social platform to share your thoughts, drive change and earn rewards along the way!"""
     ),
     Question(
-        """For the best experience, please sign in using Google.""",
+        """For the best experience, please sign in using Google""",
     ),
     Question(
         """Once you're done, send a reply :)""",
         response_required=True,
-        responses=["I don't have an account", "I am logged in!"],
+        responses=["I don't have an account", "I've logged in!"],
     ),
 ]
 

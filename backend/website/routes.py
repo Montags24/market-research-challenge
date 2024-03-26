@@ -8,7 +8,7 @@ from flask_cors import CORS
 
 # from website import db
 from website.chatgpt import generate_chatgpt_response
-from website.utils import CHATBOT_MESSAGES
+from website.surveys import QUESTION_BANK
 
 # enable CORS
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -25,58 +25,29 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/api/chatbot/response", methods=["POST"])
-def get_next_message_from_chatbot() -> dict:
-    """
-    Get the next message from the chatbot based on the provided message ID.
+@app.route("/api/chatbot/question_bank", methods=["POST"])
+def get_chatbot_questions() -> dict:
+    """Endpoint to retrieve chatbot questions based on the provided question bank.
 
     Returns:
-        dict: A dictionary containing the response status and the next chatbot message.
-            If successful, returns the next chatbot message along with a success message.
-            If an error occurs, returns an error code and message.
-
-    Raises:
-        KeyError: If the required key "messageId" is not provided in the request JSON.
-        IndexError: If the provided message ID is out of range of available chatbot messages.
-        Exception: If an unexpected error occurs.
-
+        dict: A dictionary containing the chatbot questions along with a return code and message.
     """
     try:
         api_package = request.get_json()
 
-        try:
-            message_id = api_package["messageId"]
+        question_bank = api_package["questionBank"]
+        chatbot_questions = QUESTION_BANK[question_bank]
 
-            if message_id < len(CHATBOT_MESSAGES):
-                return (
-                    jsonify(
-                        rc=0,
-                        message="Success",
-                        chatbot_reply=CHATBOT_MESSAGES[message_id + 1],
-                    ),
-                    200,
-                )
-            else:
-                raise IndexError("Provided message ID is out of range.")
+        return dict(rc=0, chatbot_questions=chatbot_questions, message="Success"), 200
 
-        except KeyError:
-            return (
-                jsonify(
-                    rc=16,
-                    message="Error - wrong key provided",
-                ),
-                400,
-            )
-
-    except IndexError:
+    except KeyError:
         return (
             jsonify(
                 rc=16,
-                message="Error - provided message ID is out of range",
+                message="Error - survey does not exist in database",
             ),
             400,
         )
-
     except Exception as e:
         return jsonify(rc=16, message=f"An error occurred - {e}"), 500
 

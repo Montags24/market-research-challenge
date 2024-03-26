@@ -13,23 +13,32 @@ if (domainOrigin.slice(-5) == ":5173") {
 }
 
 const user = reactive(new User(domainOrigin))
-const chatbot = reactive(new Chatbot(domainOrigin))
+const chatbot = reactive(new Chatbot(domainOrigin, user))
 
 
 </script>
 
 <template>
   <div>
-    <header class="relative">
+    <!-- Dark overlay -->
+    <div class="fixed inset-0 bg-black opacity-50 z-20" v-show="modalVisible"></div>
+
+    <!-- Header -->
+    <header class="relative z-30">
       <!-- Include NavBar component for navigation -->
       <div class="fixed top-0 left-0 right-0">
-        <NavBar :user="user" />
+        <NavBar :user="user" @toggleModalVisibility="toggleModal" />
+        <LoginModal :visible="modalVisible" :user="user" @toggleModalVisibility="toggleModal" class="z-30"></LoginModal>
       </div>
     </header>
-    <main class="pt-[48px] h-screen">
+
+    <!-- Main content -->
+    <main class="pt-[48px] h-screen z-10">
       <RouterView :user="user" :chatbot="chatbot" />
     </main>
-    <footer>
+
+    <!-- Footer -->
+    <footer class="z-20">
       <!-- Footer content goes here -->
       <!-- <h1>Footer</h1> -->
     </footer>
@@ -38,18 +47,23 @@ const chatbot = reactive(new Chatbot(domainOrigin))
 
 <script>
 import NavBar from './components/NavBar.vue'
+import LoginModal from '@/components/LoginModal.vue';
 
 export default {
   components: {
     NavBar,
+    LoginModal
   },
   data() {
     return {
       darkMode: false,
+      modalVisible: false
     }
   },
   methods: {
-
+    toggleModal() {
+      this.modalVisible = !this.modalVisible
+    }
   },
 }
 </script>

@@ -3,7 +3,7 @@ import pytest
 from dotenv import load_dotenv
 
 from website import create_app
-from website.utils import CHATBOT_MESSAGES
+from backend.website.surveys import QUESTION_BANK
 
 this_directory = os.path.abspath(os.path.dirname(__file__))
 
@@ -22,45 +22,37 @@ def client():
 
 
 #
-def test_chatbot_successful_response(client):
-    api_package = {"messageId": 0}
+def test_get_question_bank_successful_response(client):
+    api_package = {"questionBank": "welcome_question_bank"}
 
-    response = client.post("/api/chatbot/response", json=api_package)
+    response = client.post("/api/chatbot/question_bank", json=api_package)
 
     assert response.status_code == 200
 
     response_data = response.json
-    assert "rc" in response_data
-    assert "message" in response_data
-    assert "chatbot_reply" in response_data
-    assert (
-        response_data["chatbot_reply"]["body"]
-        == CHATBOT_MESSAGES[api_package["messageId"] + 1]["body"]
-    )
+    assert response_data["rc"] == 0
+    assert response_data["message"] == "Success"
+    assert len(response_data["chatbot_questions"]) > 0
 
 
-def test_chatbot_missing_message_id(client):
-    api_package = {}
+def test_get_question_bank_incorrect_key(client):
+    api_package = {"questionBank": "invalid_key"}
 
-    response = client.post("/api/chatbot/response", json=api_package)
+    response = client.post("/api/chatbot/question_bank", json=api_package)
 
     assert response.status_code == 400
 
     response_data = response.json
     assert response_data["rc"] == 16
-    assert response_data["message"] == "Error - wrong key provided"
+    assert response_data["message"] == "Error - survey does not exist in database"
 
 
-def test_chatbot_invalid_message_id(client):
-    api_package = {"messageId": 100}
+def test_get_question_bank_invalid_payload(client):
+    api_package = "{invalid}"
 
-    response = client.post("/api/chatbot/response", json=api_package)
+    response = client.post("/api/chatbot/question_bank", json=api_package)
 
-    assert response.status_code == 400
-
-    response_data = response.json
-    assert response_data["rc"] == 16
-    assert response_data["message"] == "Error - provided message ID is out of range"
+    assert response.status_code == 500
 
 
 def test_chatgpt_successful_response(client):

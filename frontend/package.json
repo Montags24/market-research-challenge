@@ -12,6 +12,9 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@nangohq/frontend": "^0.39.8",
+    "@nangohq/node": "^0.39.8",
+    "dotenv": "^16.4.5",
     "oh-vue-icons": "^1.0.0-rc3",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0",

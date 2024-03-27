@@ -32,11 +32,17 @@
                             Login with Google
                         </button>
                         <button
-                            class="flex items-center justify-center gap-2 border-slate-200 border-2 bg-dark-turquoise text-white px-4 py-2 rounded-lg hover:bg-black transition duration-300"
-                            @click="signInWithGoogle">
-                            Login with Email
+                            class="flex items-center justify-center gap-2 border-slate-200 border-2 bg-[#6441a5] text-white px-4 py-2 rounded-lg hover:bg-[#5830a4] transition duration-300"
+                            @click="signInWithTwitch">
+                            <img src="https://svgshare.com/i/14kC.svg" alt="Google Icon" class="h-[24px]">
+                            Login with Twitch
                         </button>
                         <p class="text-lg text-gray-600">Don't have an account?</p>
+                        <button
+                            class="flex items-center justify-center gap-2 border-slate-200 border-2 bg-dark-turquoise text-white px-4 py-2 rounded-lg hover:bg-black transition duration-300"
+                            @click="signInWithEmail">
+                            Login with Email
+                        </button>
                         <button
                             class="flex items-center justify-center gap-2 border-slate-200 border-2 bg-dark-turquoise text-white px-4 py-2 rounded-lg hover:bg-black transition duration-300"
                             @click="toggleRegisterModal">
@@ -67,7 +73,13 @@ export default {
         },
         user: {
             type: Object
-        }
+        },
+        twitchService: {
+            type: Object
+        },
+        googleService: {
+            type: Object
+        },
     },
     data() {
         return {
@@ -90,13 +102,19 @@ export default {
                         callback: response => {
                             console.log(response)
                             if (response.code)
-                                this.user.fetchGoogleUserData(response.code)
+                                this.googleService.fetchGoogleUserData(response.code)
                         },
                     })
                     .requestCode()
             })
             this.toggleModal()
         },
+        signInWithTwitch() {
+            this.twitchService.signIn()
+        },
+        signInWithEmail() {
+
+        }
     },
 };
 </script>

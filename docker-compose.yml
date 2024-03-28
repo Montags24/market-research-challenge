@@ -1,20 +1,36 @@
 version: '3'
 
 services:
-  web:
-    build: .
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: python-server
     ports:
-      - "5000:5000"
+      - "5000:5000"  # Assuming your backend service runs on port 8000
+    volumes:
+      - ./backend:/app
     depends_on:
-      - postgres
-  postgres:
+      - database
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: vue-server
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+    depends_on:
+      - backend
+
+  database:
+    container_name: postgres_container
     image: postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root
       POSTGRES_DB: market-research
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-
-volumes:
-  pgdata:
+    ports:
+      - "5432:5432"

@@ -1,6 +1,8 @@
 # Stage 1: Setup Python Flask backend
 FROM python:3.11-slim AS backend-build
 
+RUN groupadd -r myuser && useradd -r -g myuser myuser
+
 # Set the working directory in the container
 WORKDIR /app
 
@@ -16,6 +18,8 @@ ENV FLASK_APP=wsgi.py
 
 # Expose the port for the Flask app
 EXPOSE 5000
+
+USER myuser
 
 # Run the Flask application
 CMD ["flask", "run", "--host=0.0.0.0"]

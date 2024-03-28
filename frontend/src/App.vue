@@ -6,6 +6,7 @@ import Nango from '@nangohq/frontend';
 import User from './js/User';
 import Chatbot from './js/Chatbot';
 import TwitchService from './js/TwitchService'
+import TiktokService from './js/TiktokService'
 import GoogleService from './js/GoogleService'
 
 // when we are developing using localhost on port 5173 (vue's default port),
@@ -20,6 +21,7 @@ const user = reactive(new User(domainOrigin))
 const chatbot = reactive(new Chatbot(domainOrigin, user))
 const twitchService = reactive(new TwitchService(nango, user))
 const googleService = reactive(new GoogleService(domainOrigin, user))
+const tiktokService = reactive(new TiktokService(nango, user))
 
 
 </script>
@@ -35,7 +37,8 @@ const googleService = reactive(new GoogleService(domainOrigin, user))
       <div class="fixed top-0 left-0 right-0">
         <NavBar :user="user" @toggleModalVisibility="toggleModal" />
         <LoginModal :visible="modalVisible" :user="user" :twitchService="twitchService" :googleService="googleService"
-          @toggleModalVisibility="toggleModal" @toggleRegisterModal="toggleRegisterModal">
+          :tiktokService="tiktokService" @toggleModalVisibility="toggleModal"
+          @toggleRegisterModal="toggleRegisterModal">
         </LoginModal>
         <RegisterModal :user :registerModalVisible="registerModalVisible"
           @toggleRegisterModalVisibility="toggleRegisterModal">

@@ -1,8 +1,8 @@
-class TwitchService {
+class TiktokService {
   constructor (nango, user) {
     this.nango = nango
     this.user = user
-    this.clientId = import.meta.env.VITE_TWITCH_OAUTH_CLIENT_ID
+    this.clientId = import.meta.env.VITE_TIKTOK_OAUTH_CLIENT_ID
   }
 
   async signIn () {
@@ -18,7 +18,7 @@ class TwitchService {
   }
 
   async createConnection () {
-    const result = await this.nango.auth('twitch', 'test-connection-id')
+    const result = await this.nango.auth('tiktok-accounts', 'test-connection-id')
     return result.providerConfigKey
   }
 
@@ -43,13 +43,12 @@ class TwitchService {
   fetchUserData (accessToken) {
     console.log('In fetchUserData')
     return new Promise((resolve, reject) => {
-      const url = 'https://api.twitch.tv/helix/users'
+      const url = 'https://api.tiktok.com/oauth/userinfo'
 
       const requestOptions = {
         method: 'GET',
         headers: {
-          Authorization: 'Bearer ' + accessToken,
-          'Client-ID': this.clientId
+          Authorization: 'Bearer ' + accessToken
         }
       }
 
@@ -62,11 +61,7 @@ class TwitchService {
           }
         })
         .then(userData => {
-          userData = userData.data[0]
           console.log(userData)
-          this.user.name = userData.display_name
-          this.user.email = userData.email
-          this.user.avatar = userData.profile_image_url
 
           this.user.loggedIn = true
           resolve()
@@ -79,4 +74,4 @@ class TwitchService {
   }
 }
 
-export default TwitchService
+export default TiktokService

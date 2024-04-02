@@ -17,6 +17,7 @@ class Chatbot {
   }
 
   sleep (time) {
+    // time is in ms
     return new Promise(resolve => setTimeout(resolve, time))
   }
 

@@ -5,8 +5,9 @@ class User {
     this.multiplier = 1.0
     this.avatar = 'ri-chat-voice-fill'
     this.name = ''
+    this.age = ''
     this.email = ''
-    this.gender = 'none'
+    this.gender = ''
     this.loggedIn = false
   }
 
@@ -14,17 +15,21 @@ class User {
     this.score += scoreToAdd
   }
 
-  updateGender (userReply) {
-    if (userReply === 'male') {
-      this.gender = 'male'
-    } else if (userReply === 'female') {
-      this.gender = 'female'
+  updateGender (gender) {
+    if (gender != '') {
+      this.gender = gender
     }
   }
 
-  updateName (userReply) {
+  updateName (name) {
+    if (name != '') {
+      this.name = name
+    }
+  }
+
+  updateAge (userReply) {
     if (userReply != '') {
-      this.name = userReply
+      this.age = userReply
     }
   }
 

@@ -21,10 +21,12 @@ class Chatbot {
     return new Promise(resolve => setTimeout(resolve, time))
   }
 
-  addMessageToChat (sender, body, responses = []) {
+  addMessageToChat (sender, body, chatGptReply, functionToInvoke, responses = []) {
     this.messages.push({
       sender: sender,
       body: body,
+      chatGptReply: chatGptReply,
+      functionToInvoke: functionToInvoke,
       responses: responses,
       timestamp: this.getTimestamp()
     })
@@ -59,7 +61,13 @@ class Chatbot {
   async startChat () {
     for (let i = 0; i < this.questionBank.length; i++) {
       await this.sleep(1500)
-      this.addMessageToChat('bot', this.questionBank[i]['body'], this.questionBank[i]['responses'])
+      this.addMessageToChat(
+        'bot',
+        this.questionBank[i]['body'],
+        this.questionBank[i]['chatgpt_reply'],
+        this.questionBank[i]['function'],
+        this.questionBank[i]['responses']
+      )
       this.responses = this.questionBank[i]['responses']
       if (this.questionBank[i]['response_required']) {
         this.waitingUserReply = true
@@ -82,6 +90,11 @@ class Chatbot {
   async handleUserReply (userReply) {
     const lastMessage = this.messages[this.messages.length - 1]
     this.addMessageToChat('user', userReply)
+    console.log(lastMessage)
+    if (lastMessage.functionToInvoke) {
+      console.log('Invoking method...')
+      this.user.invokeMethod(lastMessage.functionToInvoke, userReply)
+    }
     if (lastMessage.chatgpt_reply) {
       const chatGptResponse = await this.apiGetChatGptResponse(
         userReply,

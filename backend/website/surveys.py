@@ -72,11 +72,13 @@ INITIAL_SURVEY_QUESTIONS = [
     Question(
         "What's your gender?",
         response_required=True,
+        function="updateGender",
         responses=["Female", "Male", "Another gender", "Prefer not to say"],
     ),
     Question(
         "And how old are you?",
         response_required=True,
+        function="updateAge",
         responses=["16-24", "25-34", "35-44", "45-54", "55-64", "65+"],
     ),
     Question(

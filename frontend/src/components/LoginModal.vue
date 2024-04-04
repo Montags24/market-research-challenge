@@ -21,10 +21,9 @@
                 <div class="mt-6 space-y-4">
                     <div class="flex flex-col space-y-4">
                         <button
-                            class="flex items-center justify-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300"
-                            @click="signInWithTiktok">
+                            class="flex items-center justify-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300">
                             <img src="https://svgshare.com/i/14iM.svg" alt="Facebook Icon" class="h-[24px]">
-                            Login with Tiktok
+                            Login with Facebook
                         </button>
                         <button
                             class="flex items-center justify-center gap-2 border-slate-200 border-2 bg-white text-gray-800 px-4 py-2 rounded-lg hover:bg-slate-200 transition duration-300"

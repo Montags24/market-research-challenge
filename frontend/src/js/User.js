@@ -2,6 +2,7 @@ class User {
   constructor (domainOrigin) {
     this.domainOrigin = domainOrigin
     this.score = 0
+    this.multiplier = 1.0
     this.avatar = 'ri-chat-voice-fill'
     this.name = ''
     this.email = ''

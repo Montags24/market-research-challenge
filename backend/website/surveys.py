@@ -62,6 +62,11 @@ INITIAL_SURVEY_QUESTIONS = [
         responses=["I've finished the video, let's continue!"],
     ),
     Question(
+        """To recap:\n🔥 earns you rewards!\n Your multiplier increases over time, meaning you earn rewards faster!""",
+        response_required=True,
+        responses=["Sounds good!"],
+    ),
+    Question(
         "First a bit of admin - we need to get to know you so we can provide you with the best experience!"
     ),
     Question(
@@ -78,6 +83,18 @@ INITIAL_SURVEY_QUESTIONS = [
         "That's it for the admin, let's get started!",
     ),
 ]
+
+AGE_GROUP_16_24 = [
+    Question(
+        """Based on a YouGov poll, the most important issues facing 16-24yr olds are the economy 💰,
+        health 💉 and housing 🏠.Fancy delving deeper into one of these topics?""",
+        chatgpt_reply=True,
+        response_required=True,
+        responses=["Economy", "Health", "Housing", "I'd like some more options"],
+    ),
+]
+
+ECONOMY_SURVEY_QUESTIONS = []
 
 
 QUESTION_BANK = {

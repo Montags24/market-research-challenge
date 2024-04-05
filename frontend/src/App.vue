@@ -35,14 +35,15 @@ const tiktokService = reactive(new TiktokService(nango, user))
     <header class="relative z-30">
       <!-- Include NavBar component for navigation -->
       <div class="fixed top-0 left-0 right-0">
-        <NavBar :user="user" @toggleModalVisibility="toggleModal" />
+        <NavBar :user="user" @toggleModalVisibility="toggleModal" @togglePrizeModalVisibility="togglePrizeModal" />
         <LoginModal :visible="modalVisible" :user="user" :twitchService="twitchService" :googleService="googleService"
           :tiktokService="tiktokService" @toggleModalVisibility="toggleModal"
           @toggleRegisterModal="toggleRegisterModal">
         </LoginModal>
-        <RegisterModal :user :registerModalVisible="registerModalVisible"
+        <RegisterModal :user="user" :registerModalVisible="registerModalVisible"
           @toggleRegisterModalVisibility="toggleRegisterModal">
         </RegisterModal>
+        <PrizeModal :user="user" :visible="prizeModalVisibility" @toggleModalVisibility="togglePrizeModal"></PrizeModal>
       </div>
     </header>
 
@@ -63,17 +64,20 @@ const tiktokService = reactive(new TiktokService(nango, user))
 import NavBar from './components/NavBar.vue'
 import LoginModal from '@/components/LoginModal.vue';
 import RegisterModal from '@/components/RegisterModal.vue';
+import PrizeModal from './components/PrizeModal.vue';
 
 export default {
   components: {
     NavBar,
     LoginModal,
-    RegisterModal
+    RegisterModal,
+    PrizeModal
   },
   data() {
     return {
       modalVisible: false,
       registerModalVisible: false,
+      prizeModalVisibility: false
     }
   },
   methods: {
@@ -83,11 +87,15 @@ export default {
     toggleRegisterModal() {
       this.modalVisible = false
       this.registerModalVisible = !this.registerModalVisible
+    },
+    togglePrizeModal() {
+      this.modalVisible = false
+      this.prizeModalVisibility = !this.prizeModalVisibility
     }
   },
   computed: {
     darkOverlay() {
-      return this.modalVisible || this.registerModalVisible
+      return this.modalVisible || this.registerModalVisible || this.prizeModalVisibility
     }
   },
 }

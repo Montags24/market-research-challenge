@@ -3,7 +3,6 @@ import pytest
 from dotenv import load_dotenv
 
 from website import create_app
-from backend.website.surveys import QUESTION_BANK
 
 this_directory = os.path.abspath(os.path.dirname(__file__))
 
@@ -12,7 +11,6 @@ load_dotenv(os.path.join(this_directory, ".../.env"))
 app = create_app()
 
 
-# testing123
 @pytest.fixture
 def client():
     app.config["TESTING"] = True
@@ -21,7 +19,6 @@ def client():
             yield client
 
 
-#
 def test_get_question_bank_successful_response(client):
     api_package = {"questionBank": "welcome_question_bank"}
 

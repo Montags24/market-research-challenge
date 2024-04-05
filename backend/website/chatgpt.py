@@ -26,7 +26,7 @@ def generate_chatgpt_response(
         messages=[
             {
                 "role": "system",
-                "content": f"Respond to {user_name if user_name else 'the user'} and avoid asking questions.",
+                "content": f"End with a statement. Respond to {user_name if user_name else 'the user'} and avoid asking questions.",
             },
             {
                 "role": "assistant",

@@ -1,27 +1,25 @@
-# Use an official Python runtime as a parent image
-FROM python:3.11.3-slim-buster
+# Stage 1: Setup Python Flask backend
+FROM python:3.11-slim AS backend-build
+
+RUN groupadd -r myuser && useradd -r -g myuser myuser
 
 # Set the working directory in the container
 WORKDIR /app
 
-# set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+# Copy requirements.txt and install dependencies
+COPY ./backend/requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the backend directory into the container at /app/backend
-COPY ./backend /app/backend
-
-# Navigate to the backend directory
-WORKDIR /app/backend
-
-# Install any needed packages specified in requirements.txt
-RUN pip install -r requirements.txt
-
-# Make port 5000 available to the world outside this container
-EXPOSE 5000
+# Copy the backend directory into the container at /app
+COPY ./backend .
 
 # Define environment variable
 ENV FLASK_APP=wsgi.py
+
+# Expose the port for the Flask app
+EXPOSE 5000
+
+USER myuser
 
 # Run the Flask application
 CMD ["flask", "run", "--host=0.0.0.0"]

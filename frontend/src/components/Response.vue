@@ -12,9 +12,13 @@
             </div>
         </div>
         <div class="w-full border py-2 px-3 rounded-xl flex justify-between">
-            <input type="text" placeholder="Select a response" v-model="message"
-                class="w-full placeholder:text-sm flex items-center focus:outline-none">
-            <button class="ps-3"><v-icon name="io-send" fill="blue" @click="sendMessage" /></button>
+            <input type="text" :placeholder="options.length > 0 ? 'Select a response' : 'Enter a message'"
+                v-model="message" class="w-full placeholder:text-sm flex items-center focus:outline-none"
+                :disabled="options.length">
+            <div class="flex">
+                <button class="ps-3"><v-icon name="bi-mic-fill" fill="blue" /></button>
+                <button class="ps-3"><v-icon name="io-send" fill="blue" @click="sendMessage" /></button>
+            </div>
         </div>
     </section>
 </template>

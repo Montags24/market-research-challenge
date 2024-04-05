@@ -17,34 +17,57 @@ class Chatbot {
   }
 
   sleep (time) {
+    // time is in ms
     return new Promise(resolve => setTimeout(resolve, time))
   }
 
-  addMessageToChat (sender, body, responses = []) {
+  addMessageToChat (sender, body, chatGptReply = null, functionToInvoke = null, responses = []) {
     this.messages.push({
       sender: sender,
       body: body,
+      chatGptReply: chatGptReply,
+      functionToInvoke: functionToInvoke,
       responses: responses,
       timestamp: this.getTimestamp()
     })
+  }
+  async checkUserSignedIn () {
+    if (!this.user.loggedIn) {
+      await this.sleep(1000)
+      this.addMessageToChat('bot', 'Please sign in to continue!')
+      this.waitingUserReply = true
+      // Wait for user reply asynchronously
+      await new Promise(resolve => {
+        const intervalId = setInterval(() => {
+          if (!this.waitingUserReply && this.user.loggedIn) {
+            clearInterval(intervalId)
+            resolve()
+          }
+        }, 100) // Check every 100 milliseconds for user reply
+      })
+    }
   }
 
   async startWelcomeChat () {
     console.log('Starting chat...')
     await this.startChat()
     console.log('Finished chat...')
-    if (this.user.loggedIn) {
-      this.apiGetQuestionBank('initial_survey_question_bank')
-    } else {
-      this.apiGetQuestionBank('initial_survey_question_bank_no_login')
-    }
+    await this.checkUserSignedIn()
+    this.apiGetQuestionBank('initial_survey_question_bank')
     await this.sleep(1500)
     await this.startChat()
   }
 
   async startChat () {
     for (let i = 0; i < this.questionBank.length; i++) {
-      this.addMessageToChat('bot', this.questionBank[i]['body'], this.questionBank[i]['responses'])
+      await this.sleep(1500)
+      this.addMessageToChat(
+        'bot',
+        this.questionBank[i]['body'],
+        this.questionBank[i]['chatgpt_reply'],
+        this.questionBank[i]['function'],
+        this.questionBank[i]['responses']
+      )
       this.responses = this.questionBank[i]['responses']
       if (this.questionBank[i]['response_required']) {
         this.waitingUserReply = true
@@ -58,7 +81,7 @@ class Chatbot {
           }, 100) // Check every 100 milliseconds for user reply
         })
       } else {
-        await this.sleep(1500)
+        await this.sleep(1000)
       }
     }
     console.log('out the for loop')
@@ -67,7 +90,12 @@ class Chatbot {
   async handleUserReply (userReply) {
     const lastMessage = this.messages[this.messages.length - 1]
     this.addMessageToChat('user', userReply)
-    if (lastMessage.chatgpt_reply) {
+    console.log(lastMessage)
+    if (lastMessage.functionToInvoke) {
+      console.log('Invoking method...')
+      this.user.invokeMethod(lastMessage.functionToInvoke, userReply)
+    }
+    if (lastMessage.chatGptReply) {
       const chatGptResponse = await this.apiGetChatGptResponse(
         userReply,
         lastMessage,
@@ -125,8 +153,6 @@ class Chatbot {
         payload.user_reply = userReply
         payload.previous_question = previousQuestion
         payload.user_name = userName
-
-        this.pushUserReplyToMessages(userReply)
       }
 
       const requestOptions = {
@@ -144,7 +170,7 @@ class Chatbot {
         .then(apiObject => {
           try {
             if (apiObject.rc == 0) {
-              resolve(apiObject.chat)
+              resolve(apiObject.chatgpt_reply.body)
             } else {
               console.log('Failed to get chatgpt reply')
             }

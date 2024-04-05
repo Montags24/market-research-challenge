@@ -42,7 +42,7 @@ WELCOME_QUESTIONS = [
         A social platform to share your thoughts, drive change and earn rewards along the way!"""
     ),
     Question(
-        """For the best experience, please sign in""",
+        """Please sign in, we don't want to lose your progress!""",
     ),
     Question(
         """Once you're done, send a reply :)""",
@@ -53,55 +53,52 @@ WELCOME_QUESTIONS = [
 
 INITIAL_SURVEY_QUESTIONS = [
     Question(
-        "Thanks for logging in! Before we get started, here's a short video on what to expect!"
+        "Nice one! Before we get started, here's a short video on what to expect!"
     ),
     Question(
-        "test_video.mp4",
-        chatgpt_reply=True,
+        "welcome-video.mp4",
         response_required=True,
         responses=["I've finished the video, let's continue!"],
     ),
     Question(
-        "First things first, we need to get to know you so we can provide you with the best experience!"
+        """To recap:\n🔥 earns you rewards!\n Your multiplier increases over time, meaning you earn rewards faster!""",
     ),
     Question(
-        "Let's select your avatar - please choose one that you resonate with the most",
+        "First a bit of admin - we need to get to know you so we can provide you with the best experience!"
+    ),
+    Question(
+        "What's your gender?",
         response_required=True,
-        responses=["👨", "👩", "Prefer not to say"],
+        function="updateGender",
+        responses=["Female", "Male", "Another gender", "Prefer not to say"],
+    ),
+    Question(
+        "And how old are you?",
+        response_required=True,
+        function="updateAge",
+        responses=["16-24", "25-34", "35-44", "45-54", "55-64", "65+"],
+    ),
+    Question(
+        "That's it for the admin, let's get started!",
     ),
 ]
 
-INITIAL_SURVEY_QUESTIONS_NO_LOGIN = [
+AGE_GROUP_16_24 = [
     Question(
-        "That's okay! Before we get started, here's a short video on what to expect!"
-    ),
-    Question(
-        "test_video.mp4",
+        """Based on a YouGov poll, the most important issues facing 16-24yr olds are the economy 💰,
+        health 💉 and housing 🏠.Fancy delving deeper into one of these topics?""",
         chatgpt_reply=True,
         response_required=True,
-        responses=["I've finished the video, let's continue!"],
-    ),
-    Question(
-        "First things first, we need to get to know you so we can provide you with the best experience!"
-    ),
-    Question(
-        "What's your name?",
-        chatgpt_reply=True,
-        function="updateName",
-        response_required=True,
-    ),
-    Question(
-        "Let's select your avatar - please choose one that you resonate with the most",
-        function="updateGender",
-        response_required=True,
-        responses=["👨", "👩", "Prefer not to say"],
+        responses=["Economy", "Health", "Housing", "I'd like some more options"],
     ),
 ]
+
+ECONOMY_SURVEY_QUESTIONS = []
+
 
 QUESTION_BANK = {
     "welcome_question_bank": QuestionBank(WELCOME_QUESTIONS).to_list(),
     "initial_survey_question_bank": QuestionBank(INITIAL_SURVEY_QUESTIONS).to_list(),
-    "initial_survey_question_bank_no_login": QuestionBank(
-        INITIAL_SURVEY_QUESTIONS_NO_LOGIN
-    ).to_list(),
+    "age_group_16_24_question_bank": QuestionBank(AGE_GROUP_16_24).to_list(),
+    "economy_question_bank": QuestionBank(ECONOMY_SURVEY_QUESTIONS).to_list(),
 }

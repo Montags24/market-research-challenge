@@ -21,7 +21,7 @@ class Chatbot {
     return new Promise(resolve => setTimeout(resolve, time))
   }
 
-  addMessageToChat (sender, body, chatGptReply, functionToInvoke, responses = []) {
+  addMessageToChat (sender, body, chatGptReply = null, functionToInvoke = null, responses = []) {
     this.messages.push({
       sender: sender,
       body: body,
@@ -95,7 +95,7 @@ class Chatbot {
       console.log('Invoking method...')
       this.user.invokeMethod(lastMessage.functionToInvoke, userReply)
     }
-    if (lastMessage.chatgpt_reply) {
+    if (lastMessage.chatGptReply) {
       const chatGptResponse = await this.apiGetChatGptResponse(
         userReply,
         lastMessage,
@@ -153,8 +153,6 @@ class Chatbot {
         payload.user_reply = userReply
         payload.previous_question = previousQuestion
         payload.user_name = userName
-
-        this.pushUserReplyToMessages(userReply)
       }
 
       const requestOptions = {
@@ -172,7 +170,7 @@ class Chatbot {
         .then(apiObject => {
           try {
             if (apiObject.rc == 0) {
-              resolve(apiObject.chat)
+              resolve(apiObject.chatgpt_reply.body)
             } else {
               console.log('Failed to get chatgpt reply')
             }

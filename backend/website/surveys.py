@@ -56,15 +56,12 @@ INITIAL_SURVEY_QUESTIONS = [
         "Nice one! Before we get started, here's a short video on what to expect!"
     ),
     Question(
-        "test_video.mp4",
-        chatgpt_reply=True,
+        "welcome-video.mp4",
         response_required=True,
         responses=["I've finished the video, let's continue!"],
     ),
     Question(
         """To recap:\n🔥 earns you rewards!\n Your multiplier increases over time, meaning you earn rewards faster!""",
-        response_required=True,
-        responses=["Sounds good!"],
     ),
     Question(
         "First a bit of admin - we need to get to know you so we can provide you with the best experience!"
@@ -102,4 +99,6 @@ ECONOMY_SURVEY_QUESTIONS = []
 QUESTION_BANK = {
     "welcome_question_bank": QuestionBank(WELCOME_QUESTIONS).to_list(),
     "initial_survey_question_bank": QuestionBank(INITIAL_SURVEY_QUESTIONS).to_list(),
+    "age_group_16_24_question_bank": QuestionBank(AGE_GROUP_16_24).to_list(),
+    "economy_question_bank": QuestionBank(ECONOMY_SURVEY_QUESTIONS).to_list(),
 }

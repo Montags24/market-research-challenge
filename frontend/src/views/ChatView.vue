@@ -21,8 +21,6 @@
 import Message from '@/components/Message.vue';
 import Response from '@/components/Response.vue';
 
-
-
 export default {
     components: {
         Message,

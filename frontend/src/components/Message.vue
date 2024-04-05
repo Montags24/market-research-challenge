@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import testVideo from '@/assets/test_video.mp4';
+import welcomeVideo from '@/assets/welcome_video.mp4';
 import { chatbotAvatar } from '@/assets/images';
 import { previewImage } from '@/assets/images';
 export default {
@@ -49,7 +49,7 @@ export default {
     },
     data() {
         return {
-            video: testVideo,
+            video: welcomeVideo,
             chatbotAvatar: chatbotAvatar,
             previewImage: previewImage
         }

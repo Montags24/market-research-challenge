@@ -13,21 +13,6 @@
 
 [Strategies for Capitalizing on Gen Z's Growing Influence](https://www.forbes.com/sites/forbesbusinesscouncil/2024/03/06/strategies-for-capitalizing-on-gen-zs-growing-influence/?sh=431986691619)
 
-Teen Profiles: Gen Z Research
-
-Gen Z: Challenges and Opportunities on Social Media
-
-What Age Do Kids Get Phones, Tablets, Laptops?
-
-Meet the Next Consumer: How Gen Z are Taking New Reality
-
-The Next Next Consumer: Understanding Gen Z
-
-How Leading Questions and Acquiescence Bias Can Impact Surveys
-
-Strategies for Capitalizing on Gen Z's Growing Influence
-
-
 # Market Research Challenge
 
 This repository contains the solution to the Inversity Challenge titled "Reimagining Market Research: How can technology help us work out what people are thinking and turn these insights into action?".
